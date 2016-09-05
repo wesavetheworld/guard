@@ -2,9 +2,16 @@
 
 require "vendor/autoload.php";
 
-use Avram\Guard\Command\Test;
 use Symfony\Component\Console\Application;
 
+$commands = [
+    Avram\Guard\Command\Start::class,
+];
+
 $application = new Application('Guard', '0.1-dev');
-$application->add(new Avram\Guard\Command\Test());
+
+foreach ($commands as $command) {
+    $application->add(new $command);
+}
+
 $application->run();
