@@ -1,0 +1,35 @@
+{
+    "alias": "guard.phar",
+    "chmod": "0755",
+    "compactors": [
+        "Herrera\\Box\\Compactor\\Json",
+        "Herrera\\Box\\Compactor\\Php"
+    ],
+    "directories": ["."],
+    "extract": true,
+    "files": [
+
+    ],
+    "finder": [
+        {
+            "name": "*.php",
+            "exclude": [
+                "phpunit",
+                "phpunit-test-case",
+                "Tester",
+                "Tests",
+                "tests",
+                "yaml"
+            ],
+            "in": "."
+        }
+    ],
+    "git-commit": "git-commit",
+    "git-version": "git-version",
+    "main": "app.php",
+    "output": "guard-@git-version@.phar",
+    "replacements": {
+        "manifest_url": "manifest.json"
+    },
+    "stub": true
+}
