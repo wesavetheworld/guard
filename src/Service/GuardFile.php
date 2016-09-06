@@ -2,6 +2,7 @@
 
 
 use Avram\Guard\Exceptions\GuardFileException;
+use Avram\Guard\Site;
 
 class GuardFile
 {
@@ -20,109 +21,210 @@ class GuardFile
 
         $this->fileName = $fileName;
         $this->file     = new \SplFileInfo($fileName);
-        $this->data     = new \stdClass();
+        $json           = new \stdClass();
 
-        if (!$this->exists()) {
-            throw new GuardFileException("File {$fileName} does not exist or is not readable! Use: php guard.phar init");
+        if ($this->file->isFile() && $this->file->isReadable()) {
+            $contents = file_get_contents($this->file->getPathname());
+            if (!empty($contents)) {
+                $json = json_decode($contents);
+            }
+
+            if (!is_object($json)) {
+                throw new GuardFileException("File {$fileName} is wrongly formatted! Delete it and use: php guard.phar init");
+            }
         }
 
-        $contents = file_get_contents($this->file->getPathname());
-        if (empty($contents)) {
-            throw new GuardFileException("File {$fileName} is empty! Delete it and use: php guard.phar init");
-        }
-
-        $this->data = json_decode($contents);
-        if (!is_object($this->data)) {
-            throw new GuardFileException("File {$fileName} is wrongly formatted! Delete it and use: php guard.phar init");
-        }
+        $this->initializeData($json);
 
     }
 
-    public function exists()
+    /**
+     * @param $json
+     */
+    public function initializeData($json)
     {
-        return ($this->file->isFile() && $this->file->isReadable());
+        $this->data        = new \stdClass();
+        $this->data->sites = (isset($json->sites) && is_array($json->sites)) ? $json->sites : [];
+
+        $this->data->email            = new \stdClass();
+        $this->data->email->recipient = isset($json->email->recipient) ? $json->email->recipient : null;
+        $this->data->email->transport = isset($json->email->transport) ? $json->email->transport : 'mail';
+        $this->data->email->sendmail  = isset($json->email->sendmail) ? $json->email->sendmail : '/usr/sbin/sendmail -bs';
+        $this->data->email->smtp_host = isset($json->email->smtp_host) ? $json->email->smtp_host : '';
+        $this->data->email->smtp_port = isset($json->email->smtp_port) ? (int)$json->email->smtp_port : 25;
+        $this->data->email->smtp_user = isset($json->email->smtp_user) ? $json->email->smtp_user : '';
+        $this->data->email->smtp_pass = isset($json->email->smtp_pass) ? $json->email->smtp_pass : '';
     }
 
-    public function setPaths(array $paths)
+    /**
+     * @param null $what
+     *
+     * @return mixed
+     */
+    public function getEmail($what = null)
     {
-        $this->data->paths = $paths;
+        if (empty($what)) {
+            return $this->data->email;
+        }
+
+        return $this->data->email->{$what};
     }
 
+    /**
+     * @param      $what
+     * @param null $value
+     */
+    public function setEmail($what, $value = null)
+    {
+        if (is_object($what)) {
+            $this->data->email = $what;
+        }
+
+        $this->data->email->{$what} = $value;
+    }
+
+    /**
+     * @return array
+     * @throws \Exception
+     */
+    public function getSites()
+    {
+        $sites = [];
+
+        foreach ($this->data->sites as $site) {
+            $sites[] = Site::fromJSONObject($site);
+        }
+
+        return $sites;
+    }
+
+    /**
+     * @return array
+     */
     public function getPaths()
     {
-        return isset($this->data->paths) ? $this->data->paths : [];
+        $paths = [];
+
+        foreach ($this->data->sites as $site) {
+            $paths[] = $site->path;
+        }
+
+        return $paths;
     }
 
-    public function addPath($path)
+    /**
+     * @param Site $site
+     */
+    public function addSite(Site $site)
     {
-        $paths   = $this->getPaths();
-        $paths[] = realpath($path);
-        $this->setPaths($paths);
+        $this->data->sites[] = $site->jsonSerialize();
     }
 
-    public function removePath($path)
+    /**
+     * @param $name
+     */
+    public function removeSite($name)
     {
-        $paths = array_filter($this->getPaths(), function ($elem) use ($path) {
-            return ($elem != $path);
+        $this->data->sites = array_filter($this->data->sites, function ($elem) use ($name) {
+            return ($elem->name != $name);
         });
-
-        $this->setPaths($paths);
     }
 
-    public function setExtensions($exts)
+    /**
+     * @param Site $site
+     *
+     * @return bool
+     */
+    public function updateSite(Site $site)
     {
-        $this->data->extensions = $exts;
+        $index = $this->findSiteIndexByName($site->getName());
+        if ($index === false) {
+            return false;
+        }
+
+        $this->data->sites[$index] = $site->jsonSerialize();
+        return true;
     }
 
-    public function getExtensions()
+    /**
+     * @param $name
+     *
+     * @return static
+     * @throws \Exception
+     */
+    public function findSiteByName($name)
     {
-        return isset($this->data->extensions) ? $this->data->extensions : '*';
+        foreach ($this->data->sites as $site) {
+            if ($site->name == $name) {
+                return Site::fromJSONObject($site);
+            }
+        }
     }
 
-    public function getExtensionsArray()
+    /**
+     * @param $name
+     *
+     * @return bool|int
+     */
+    public function findSiteIndexByName($name)
     {
-        return explode(';', $this->getExtensions());
+        for ($i = 0; $i < count($this->data->sites); $i++) {
+            $site = $this->data->sites[$i];
+            if ($site->name == $name) {
+                return $i;
+            }
+        }
+
+        return false;
     }
 
-    public function setExcludes(array $excludes)
+    /**
+     * @param $path
+     *
+     * @return static
+     * @throws \Exception
+     */
+    public function findSiteByPath($path)
     {
-        $this->data->excludes = $excludes;
+        foreach ($this->data->sites as $site) {
+            if ($site->path == $path) {
+                return Site::fromJSONObject($site);
+            }
+        }
     }
 
-    public function getExcludes()
+
+    /**
+     *
+     */
+    public function writeGuardFile()
     {
-        return isset($this->data->excludes) ? $this->data->excludes : [];
+        //write config file
+        file_put_contents($this->file->getPathname(), json_encode($this->data, JSON_PRETTY_PRINT));
     }
 
-    public function addExclude($path)
-    {
-        $excludes   = $this->getExcludes();
-        $excludes[] = realpath($path);
-        $this->setExcludes($excludes);
-    }
-
-    public function removeExclude($path)
-    {
-        $paths = array_filter($this->getExcludes(), function ($elem) use ($path) {
-            return ($elem != $path);
-        });
-
-        $this->setExcludes($paths);
-    }
-
+    /**
+     * @return \SplFileInfo
+     */
     public function watchFile()
     {
         return new \SplFileInfo(GUARD_USER_FOLDER.DIRECTORY_SEPARATOR.'.watchlist');
     }
 
-    public function writeGuardFile()
-    {
-        //write config file
-        file_put_contents($this->file->getPathname(), $this->data, JSON_PRETTY_PRINT);
-    }
-
+    /**
+     *
+     */
     public function writeWatchFile()
     {
         file_put_contents($this->watchFile()->getPathname(), implode(PHP_EOL, $this->getPaths()));
+    }
+
+    /**
+     *
+     */
+    public function dump()
+    {
+        $this->writeGuardFile();
+        $this->writeWatchFile();
     }
 }

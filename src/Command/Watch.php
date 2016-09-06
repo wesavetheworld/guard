@@ -2,37 +2,25 @@
 
 namespace Avram\Guard\Command;
 
-use Avram\Guard\Exceptions\GuardFileException;
-use Avram\Guard\Service\GuardFile;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 
-class Start extends Command
+class Watch extends BaseCommand
 {
     protected function configure()
     {
         $this
             ->setName('start')
-            ->setDescription('Say hello')
-        ;
+            ->setDescription('Say hello');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $guardFile = null;
+        parent::execute($input, $output);
 
-        try {
-            $guardFile = new GuardFile();
-        } catch (GuardFileException $ex) {
-            $output->writeln($ex->getMessage());
-            exit(1);
-        }
 
-        $path = $guardFile->getPath();
-
-        $output->writeln("Setting up watches on {$path}. This may take a while...");
+        $output->writeln("Setting up watches on PATH. This may take a while...");
         $output->writeln("Press CTRL+C to abort.");
 
         $process = new Process("inotifywait -m -r -e modify -e create -e move -e delete --format '%w%f %e' {$path}");
@@ -51,10 +39,17 @@ class Start extends Command
                     $output->writeln($buffer);
                 }
             } else {
-                echo 'OUT > '.$buffer;
+//                echo 'OUT > '.$buffer;
+                list($path, $event) = explode(' ', $buffer);
+                $this->handle($path, $event);
             }
         });
 
         echo $process->getOutput();
+    }
+
+    protected function handle($filePath, $event)
+    {
+
     }
 }

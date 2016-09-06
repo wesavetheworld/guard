@@ -5,7 +5,8 @@ use Symfony\Component\Console\Application;
 
 // define commands
 $commands = [
-    Avram\Guard\Command\Start::class,
+    Avram\Guard\Command\SiteAdd::class,
+    Avram\Guard\Command\Watch::class,
 ];
 
 // ensure ~/.guard folder exists
