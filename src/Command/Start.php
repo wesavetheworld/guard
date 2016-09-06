@@ -2,13 +2,12 @@
 
 namespace Avram\Guard\Command;
 
+use Avram\Guard\Exceptions\GuardFileException;
+use Avram\Guard\Service\GuardFile;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
-
-use Avram\Guard\Service\GuardFile;
-use Avram\Guard\Exceptions\GuardFileException;
 
 class Start extends Command
 {
@@ -33,18 +32,24 @@ class Start extends Command
 
         $path = $guardFile->getPath();
 
-        $output->writeln('Hello World');
+        $output->writeln("Setting up watches on {$path}. This may take a while...");
+        $output->writeln("Press CTRL+C to abort.");
 
-        $process = new Process("inotifywait -m -r -e modify -e create -e move -e delete --format '%w %f %e' {$path}");
-
-        $output->writeln("Watching dir {$path}. Press CTRL+C to abort.");
-
+        $process = new Process("inotifywait -m -r -e modify -e create -e move -e delete --format '%w%f %e' {$path}");
         $process->setTimeout(0);
         $process->start();
 
+        $pid = $process->getPid();
+        $output->writeln("Watcher PID is {$pid}");
+
+//        $pidPath = str_replace('/', '-', $path);
+//        file_put_contents("~/.guard/pids/{$pidPath}.pid", $pid);
+
         $process->wait(function ($type, $buffer) use ($output) {
             if (Process::ERR === $type) {
-                $output->writeln($buffer);
+                if (stripos($buffer, "Setting up watches") !== 0) {
+                    $output->writeln($buffer);
+                }
             } else {
                 echo 'OUT > '.$buffer;
             }

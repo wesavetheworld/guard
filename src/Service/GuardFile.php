@@ -12,8 +12,12 @@ class GuardFile
     /** @var \stdClass */
     protected $data;
 
-    public function __construct($fileName = './.guardfile')
+    public function __construct($fileName = null)
     {
+        if (empty($fileName)) {
+            $fileName = GUARD_USER_FOLDER.DIRECTORY_SEPARATOR.'guard.json';
+        }
+
         $this->fileName = $fileName;
         $this->file     = new \SplFileInfo($fileName);
         $this->data     = new \stdClass();
@@ -39,14 +43,30 @@ class GuardFile
         return ($this->file->isFile() && $this->file->isReadable());
     }
 
-    public function setPath($path)
+    public function setPaths(array $paths)
     {
-        $this->data->path = realpath($path);
+        $this->data->paths = $paths;
     }
 
-    public function getPath()
+    public function getPaths()
     {
-        return isset($this->data->path) ? $this->data->path : '.';
+        return isset($this->data->paths) ? $this->data->paths : [];
+    }
+
+    public function addPath($path)
+    {
+        $paths   = $this->getPaths();
+        $paths[] = realpath($path);
+        $this->setPaths($paths);
+    }
+
+    public function removePath($path)
+    {
+        $paths = array_filter($this->getPaths(), function ($elem) use ($path) {
+            return ($elem != $path);
+        });
+
+        $this->setPaths($paths);
     }
 
     public function setExtensions($exts)
@@ -81,7 +101,7 @@ class GuardFile
         $this->setExcludes($excludes);
     }
 
-    public function removePath($path)
+    public function removeExclude($path)
     {
         $paths = array_filter($this->getExcludes(), function ($elem) use ($path) {
             return ($elem != $path);
@@ -90,13 +110,19 @@ class GuardFile
         $this->setExcludes($paths);
     }
 
-    public function data()
+    public function watchFile()
     {
-        return $this->data;
+        return new \SplFileInfo(GUARD_USER_FOLDER.DIRECTORY_SEPARATOR.'.watchlist');
     }
 
-    public function writeFile()
+    public function writeGuardFile()
     {
+        //write config file
         file_put_contents($this->file->getPathname(), $this->data, JSON_PRETTY_PRINT);
+    }
+
+    public function writeWatchFile()
+    {
+        file_put_contents($this->watchFile()->getPathname(), implode(PHP_EOL, $this->getPaths()));
     }
 }
