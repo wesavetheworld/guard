@@ -16,7 +16,7 @@ class SiteAdd extends BaseCommand
             ->setDescription('Add site to guard list.')
             ->setDefinition(
                 new InputDefinition([
-                    new InputArgument('name', InputArgument::REQUIRED),
+                    new InputArgument('name', InputArgument::REQUIRED, 'Name of the site. Usually the domain name'),
                     new InputOption('path', 'p', InputOption::VALUE_REQUIRED, 'Path to guard', '.'),
                     new InputOption('types', 't', InputOption::VALUE_REQUIRED, 'File extensions to protect', '*.php;*.htm*;*.js;*.css;*.sql'),
                     new InputOption('email', 'e', InputOption::VALUE_REQUIRED, 'E-mail', null),
@@ -40,7 +40,6 @@ class SiteAdd extends BaseCommand
 
         if ($exists) {
             $this->error("Site with name {$name} already exists! Please try another name.");
-            exit(1);
         }
 
         /** @var Site $exists */
@@ -49,7 +48,6 @@ class SiteAdd extends BaseCommand
         if ($exists) {
             $existingName = $exists->getName();
             $this->error("Site on path {$path} already exists with name {$existingName}! Please try another path.");
-            exit(1);
         }
 
 

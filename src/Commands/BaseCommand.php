@@ -34,12 +34,15 @@ abstract class BaseCommand extends Command
         }
     }
 
-    public function error($message, $title = "Error!")
+    public function error($message, $title = "Error!", $exitCode = 1)
     {
         $formatter      = $this->getHelper('formatter');
         $errorMessages  = array($title, $message);
         $formattedBlock = $formatter->formatBlock($errorMessages, 'error', true);
         $this->outputInterface->writeln($formattedBlock);
+        if ($exitCode !== false) {
+            exit($exitCode);
+        }
     }
 
     public function table(array $headers, array $rows)
