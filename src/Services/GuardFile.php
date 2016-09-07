@@ -203,6 +203,31 @@ class GuardFile
 
 
     /**
+     * @param $path
+     *
+     * @return Site|null
+     */
+    public function findSiteByLongPath($path)
+    {
+        $sites = $this->getSites();
+
+        /** @var Site $testSite */
+        foreach ($sites as $testSite) {
+            $testPath = $path;
+
+            while ((strlen($testPath) > 1)) {
+                if ($testPath == $testSite->getPath()) {
+                    return $testSite;
+                }
+                $testPath = dirname($testPath);
+            }
+        }
+
+        return null;
+    }
+
+
+    /**
      *
      */
     public function writeGuardFile()
