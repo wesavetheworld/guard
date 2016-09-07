@@ -125,6 +125,39 @@ class Site implements \JsonSerializable
 
 
     /**
+     * @param null|string $fileName
+     *
+     * @return string
+     */
+    public function backupPath($fileName = null)
+    {
+        $path = GUARD_USER_FOLDER.DIRECTORY_SEPARATOR."backups".DIRECTORY_SEPARATOR.$this->getName();
+
+        if ($fileName) {
+            $path .= DIRECTORY_SEPARATOR.$fileName;
+        }
+
+        return $path;
+    }
+
+    /**
+     * @param null|string $fileName
+     *
+     * @return string
+     */
+    public function quarantinePath($fileName = null)
+    {
+        $path = GUARD_USER_FOLDER.DIRECTORY_SEPARATOR."quarantine".DIRECTORY_SEPARATOR.$this->getName();
+
+        if ($fileName) {
+            $path .= DIRECTORY_SEPARATOR.$fileName;
+        }
+
+        return $path;
+    }
+
+
+    /**
      * Specify data which should be serialized to JSON
      * @link  http://php.net/manual/en/jsonserializable.jsonserialize.php
      * @return mixed data which can be serialized by <b>json_encode</b>,

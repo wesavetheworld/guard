@@ -1,6 +1,4 @@
-<?php
-
-namespace Avram\Guard\Command;
+<?php namespace Avram\Guard\Commands;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -11,8 +9,8 @@ class Watch extends BaseCommand
     protected function configure()
     {
         $this
-            ->setName('start')
-            ->setDescription('Say hello');
+            ->setName('watch')
+            ->setDescription('Watch all sites for changes');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

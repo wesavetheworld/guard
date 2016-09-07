@@ -5,8 +5,8 @@ use Symfony\Component\Console\Application;
 
 // define commands
 $commands = [
-    Avram\Guard\Command\SiteAdd::class,
-    Avram\Guard\Command\Watch::class,
+    Avram\Guard\Commands\SiteAdd::class,
+    Avram\Guard\Commands\Watch::class,
 ];
 
 // ensure ~/.guard folder exists
@@ -15,9 +15,9 @@ define('GUARD_SYSTEM_USER', $user);
 
 $appFolder = new SplFileInfo("/home/{$user}/.guard");
 if (!$appFolder->isDir()) {
-    mkdir($appFolder, 0755, true);
+    mkdir($appFolder->getPathname(), 0755, true);
 }
-define('GUARD_USER_FOLDER', $appFolder);
+define('GUARD_USER_FOLDER', $appFolder->getPathname());
 
 // bootstrap the application
 $application = new Application('Guard', '0.1-dev');

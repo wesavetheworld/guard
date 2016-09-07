@@ -1,6 +1,4 @@
-<?php
-
-namespace Avram\Guard\Command;
+<?php namespace Avram\Guard\Commands;
 
 use Avram\Guard\Site;
 use Symfony\Component\Console\Input\InputArgument;

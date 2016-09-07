@@ -1,5 +1,4 @@
-<?php namespace Avram\Guard\Service;
-
+<?php namespace Avram\Guard\Services;
 
 use Avram\Guard\Exceptions\GuardFileException;
 use Avram\Guard\Site;
@@ -138,7 +137,7 @@ class GuardFile
     public function updateSite(Site $site)
     {
         $index = $this->findSiteIndexByName($site->getName());
-        if ($index === false) {
+        if ($index === null) {
             return false;
         }
 
@@ -149,7 +148,7 @@ class GuardFile
     /**
      * @param $name
      *
-     * @return static
+     * @return static|null
      * @throws \Exception
      */
     public function findSiteByName($name)
@@ -159,12 +158,14 @@ class GuardFile
                 return Site::fromJSONObject($site);
             }
         }
+
+        return null;
     }
 
     /**
      * @param $name
      *
-     * @return bool|int
+     * @return null|int
      */
     public function findSiteIndexByName($name)
     {
@@ -175,13 +176,13 @@ class GuardFile
             }
         }
 
-        return false;
+        return null;
     }
 
     /**
      * @param $path
      *
-     * @return static
+     * @return static|null
      * @throws \Exception
      */
     public function findSiteByPath($path)
@@ -191,6 +192,8 @@ class GuardFile
                 return Site::fromJSONObject($site);
             }
         }
+
+        return null;
     }
 
 
