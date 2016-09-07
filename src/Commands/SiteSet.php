@@ -16,7 +16,7 @@ class SiteSet extends BaseCommand
             ->setDefinition(
                 new InputDefinition([
                     new InputArgument('name', InputArgument::REQUIRED, 'Site name'),
-                    new InputArgument('variable', InputArgument::REQUIRED, 'Variable name to set (can be: name, path, email, types, excludes]'),
+                    new InputArgument('variable', InputArgument::REQUIRED, 'Variable name to set (can be: name, path, email, types or excludes)'),
                     new InputArgument('value', InputArgument::REQUIRED | InputArgument::IS_ARRAY, 'Variable value (or values for excludes, separated with space) to set'),
                 ])
             );
@@ -33,7 +33,6 @@ class SiteSet extends BaseCommand
         $site = $this->guardFile->findSiteByName($name);
         if ($site == null) {
             $this->error("Site with name {$name} was not found. Use: guard site:list");
-            exit(1);
         }
 
         $siteIndex = $this->guardFile->findSiteIndexByName($name);
@@ -41,7 +40,6 @@ class SiteSet extends BaseCommand
         $allowed = ['name', 'path', 'types', 'email', 'excludes'];
         if (!in_array($variable, $allowed)) {
             $this->error("Invalid variable name: {$variable}, can be only one of: ".implode(', ', $allowed));
-            exit(1);
         }
 
         switch ($variable) {

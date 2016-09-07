@@ -46,7 +46,7 @@ class GuardFile
         $this->data->sites = (isset($json->sites) && is_array($json->sites)) ? $json->sites : [];
 
         $this->data->email            = new \stdClass();
-        $this->data->email->recipient = isset($json->email->recipient) ? $json->email->recipient : null;
+        $this->data->email->address   = isset($json->email->address) ? $json->email->address : null;
         $this->data->email->transport = isset($json->email->transport) ? $json->email->transport : 'mail';
         $this->data->email->sendmail  = isset($json->email->sendmail) ? $json->email->sendmail : '/usr/sbin/sendmail -bs';
         $this->data->email->smtp_host = isset($json->email->smtp_host) ? $json->email->smtp_host : '';
