@@ -11,7 +11,7 @@ class SiteList extends BaseCommand
     {
         $this
             ->setName('site:list')
-            ->setDescription('List guarded sites');;
+            ->setDescription('List guarded sites');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
