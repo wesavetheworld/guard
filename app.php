@@ -6,6 +6,8 @@ use Symfony\Component\Console\Application;
 // define commands
 $commands = [
     Avram\Guard\Commands\SiteAdd::class,
+    Avram\Guard\Commands\SiteSet::class,
+    Avram\Guard\Commands\SiteList::class,
     Avram\Guard\Commands\Watch::class,
 ];
 
