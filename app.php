@@ -8,6 +8,8 @@ $commands = [
     Avram\Guard\Commands\SiteAdd::class,
     Avram\Guard\Commands\SiteSet::class,
     Avram\Guard\Commands\SiteList::class,
+    Avram\Guard\Commands\SiteRemove::class,
+    Avram\Guard\Commands\SiteBackup::class,
     Avram\Guard\Commands\Watch::class,
 ];
 
