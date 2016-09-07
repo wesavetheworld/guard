@@ -10,6 +10,10 @@ $commands = [
     Avram\Guard\Commands\SiteList::class,
     Avram\Guard\Commands\SiteRemove::class,
     Avram\Guard\Commands\SiteBackup::class,
+
+    Avram\Guard\Commands\EmailSet::class,
+    Avram\Guard\Commands\EmailShow::class,
+
     Avram\Guard\Commands\Watch::class,
 ];
 
