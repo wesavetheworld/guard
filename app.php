@@ -14,7 +14,8 @@ $commands = [
     Avram\Guard\Commands\EmailSet::class,
     Avram\Guard\Commands\EmailShow::class,
 
-    Avram\Guard\Commands\Watch::class,
+    Avram\Guard\Commands\Start::class,
+    Avram\Guard\Commands\Stop::class,
 ];
 
 // ensure ~/.guard folder exists
