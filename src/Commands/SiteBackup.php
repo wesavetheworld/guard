@@ -31,24 +31,24 @@ class SiteBackup extends BaseCommand
             $this->error("Site with name {$name} is not found. Use: guard site:list");
         }
 
-        $backuppath = $site->backupPath();
+        $backupPath = $site->backupPath();
 
-        if (is_dir($backuppath)) {
-            rmdir_recursive($backuppath);
+        if (is_dir($backupPath)) {
+            rmdir_recursive($backupPath);
         }
 
-        if (!is_dir($backuppath)) {
-            mkdir($backuppath, 0755, true);
+        if (!is_dir($backupPath)) {
+            mkdir($backupPath, 0755, true);
         }
         $exts    = $site->getTypes();
         $extsArr = glob2arr($exts);
 
         $path = $site->getPath();
-        $output->writeln("Backing up files matching {$exts} from {$path} to {$backuppath}");
+        $output->writeln("Backing up files matching {$exts} from {$path} to {$backupPath}");
         $output->writeln("Depending on the site size, this may take a while...");
 
         foreach ($extsArr as $ext) {
-            system(sprintf("rsync -a --include '*/' --include '%s' --exclude '*' %s %s", $ext, $path.'/.', $backuppath));
+            system(sprintf("rsync -a --include '*/' --include '%s' --exclude '*' %s %s", $ext, $path.'/.', $backupPath));
         }
         $output->writeln("All files mathing {$exts} are backed up!");
     }

@@ -16,7 +16,7 @@ class Site implements \JsonSerializable
         $this->excludes = [];
 
         foreach ($excludes as $excludedPath) {
-            $this->addExclude(is_file($excludedPath) ? realpath($excludedPath) : $excludedPath);
+            $this->addExclude(file_exists($excludedPath) ? realpath($excludedPath) : $excludedPath);
         }
 
     }
