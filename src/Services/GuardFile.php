@@ -131,14 +131,19 @@ class GuardFile
 
     /**
      * @param Site $site
+     * @param int  $position
      *
      * @return bool
      */
-    public function updateSite(Site $site)
+    public function updateSite(Site $site, $position = null)
     {
-        $index = $this->findSiteIndexByName($site->getName());
-        if ($index === null) {
-            return false;
+        if ($position === null) {
+            $index = $this->findSiteIndexByName($site->getName());
+            if ($index === null) {
+                return false;
+            }
+        } else {
+            $index = (int)$position;
         }
 
         $this->data->sites[$index] = $site->jsonSerialize();
@@ -148,7 +153,7 @@ class GuardFile
     /**
      * @param $name
      *
-     * @return static|null
+     * @return Site|null
      * @throws \Exception
      */
     public function findSiteByName($name)
@@ -182,7 +187,7 @@ class GuardFile
     /**
      * @param $path
      *
-     * @return static|null
+     * @return Site|null
      * @throws \Exception
      */
     public function findSiteByPath($path)

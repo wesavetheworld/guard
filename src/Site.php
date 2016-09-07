@@ -7,7 +7,7 @@ class Site implements \JsonSerializable
     /** @var array */
     protected $excludes;
 
-    public function __construct($name, $path = ".", $types = "*.php;*.htm*;*.js;*.css;*.sql", $email = null, $excludes = null)
+    public function __construct($name, $path = ".", $types = "*.php;*.htm*;*.js;*.css;*.sql", $email = null, $excludes = [])
     {
         $this->setName($name);
         $this->setPath(realpath($path));
@@ -50,7 +50,7 @@ class Site implements \JsonSerializable
      */
     public function setPath($path)
     {
-        $this->path = $path;
+        $this->path = realpath($path);
     }
 
     /**
