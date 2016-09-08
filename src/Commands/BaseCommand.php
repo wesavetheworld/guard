@@ -4,9 +4,11 @@ use Avram\Guard\Exceptions\GuardFileException;
 use Avram\Guard\Services\GuardFile;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Symfony\Component\Filesystem\Filesystem;
 
 abstract class BaseCommand extends Command
 {
@@ -18,6 +20,9 @@ abstract class BaseCommand extends Command
 
     /** @var GuardFile */
     public $guardFile;
+
+    /** @var Filesystem */
+    public $fileSystem;
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -32,6 +37,8 @@ abstract class BaseCommand extends Command
             $output->writeln($ex->getMessage());
             exit(1);
         }
+
+        $this->fileSystem = new Filesystem();
     }
 
     public function error($message, $title = "Error!", $exitCode = 1)
@@ -59,5 +66,14 @@ abstract class BaseCommand extends Command
         $helper   = $this->getHelper('question');
         $question = new ConfirmationQuestion($question." [y/N]\n", false);
         return $helper->ask($this->inputInterface, $this->outputInterface, $question);
+    }
+
+    public function call($command, $arguments)
+    {
+        $cmd = $this->getApplication()->find($command);
+
+        $arguments['command'] = $command;
+
+        return $cmd->run(new ArrayInput($arguments), $this->outputInterface);
     }
 }

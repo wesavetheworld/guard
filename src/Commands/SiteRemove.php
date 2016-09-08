@@ -36,8 +36,8 @@ class SiteRemove extends BaseCommand
             exit(0);
         }
 
-        rmdir_recursive($site->backupPath());
-        rmdir_recursive($site->quarantinePath());
+        $this->fileSystem->remove($site->quarantinePath());
+        $this->fileSystem->remove($site->backupPath());
 
         $this->guardFile->removeSite($site->getName());
         $this->guardFile->dump();

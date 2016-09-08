@@ -25,31 +25,24 @@ class SiteBackup extends BaseCommand
         parent::execute($input, $output);
 
         $name = $input->getArgument('name');
-
         $site = $this->guardFile->findSiteByName($name);
+
         if ($site === null) {
             $this->error("Site with name {$name} is not found. Use: guard site:list");
         }
 
+        $path       = $site->getPath();
         $backupPath = $site->backupPath();
 
         if (is_dir($backupPath)) {
-            rmdir_recursive($backupPath);
+            $this->fileSystem->remove($backupPath);
         }
 
-        if (!is_dir($backupPath)) {
-            mkdir($backupPath, 0755, true);
-        }
-        $exts    = $site->getTypes();
-        $extsArr = glob2arr($exts);
-
-        $path = $site->getPath();
-        $output->writeln("Backing up files matching {$exts} from {$path} to {$backupPath}");
+        $output->writeln("Backing up all site files from {$path} to {$backupPath}");
         $output->writeln("Depending on the site size, this may take a while...");
 
-        foreach ($extsArr as $ext) {
-            system(sprintf("rsync -a --include '*/' --include '%s' --exclude '*' %s %s", $ext, $path.'/.', $backupPath));
-        }
-        $output->writeln("All files mathing {$exts} are backed up!");
+        $this->fileSystem->mirror($path, $backupPath);
+
+        $output->writeln("All site files are backed up!");
     }
 }

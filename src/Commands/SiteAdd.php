@@ -50,11 +50,19 @@ class SiteAdd extends BaseCommand
             $this->error("Site on path {$path} already exists with name {$existingName}! Please try another path.");
         }
 
+        if (!is_dir($path)) {
+            $this->error("Directory {$path} does not exist!");
+        }
 
         $site = new Site($name, $path, $types, $email, $excludes);
         $this->guardFile->addSite($site);
         $this->guardFile->dump();
         $output->writeln("Site {$name} added!");
+
+        //backup newly added site
+        $this->call('site:backup', [
+            'name' => $name
+        ]);
 
     }
 }

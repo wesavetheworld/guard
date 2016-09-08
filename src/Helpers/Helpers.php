@@ -17,21 +17,3 @@ function fnmmatch($pattern, $string, $flags = null)
 
     return false;
 }
-
-function rmdir_recursive($dir)
-{
-    $files = scandir($dir);
-    array_shift($files);    // remove '.' from array
-    array_shift($files);    // remove '..' from array
-
-    foreach ($files as $file) {
-        $file = $dir.'/'.$file;
-        if (is_dir($file)) {
-            @rmdir_recursive($file);
-            @rmdir($file);
-        } else {
-            unlink($file);
-        }
-    }
-    rmdir($dir);
-}
