@@ -19,8 +19,6 @@ class EmailShow extends BaseCommand
 
         $transport = $this->guardFile->getEmail('transport');
 
-        $header = array('Address', 'Transport');
-
         $row   = [];
         $row[] = str_replace(',', ', ', $this->guardFile->getEmail('address'));
         $row[] = $this->guardFile->getEmail('transport');
