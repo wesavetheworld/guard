@@ -29,7 +29,7 @@ class GuardFile
             }
 
             if (!is_object($json)) {
-                throw new GuardFileException("File {$fileName} is wrongly formatted! Delete it and use: php guard.phar init");
+                throw new GuardFileException("File {$fileName} is wrongly formatted!");
             }
         }
 

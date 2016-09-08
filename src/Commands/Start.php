@@ -55,7 +55,7 @@ class Start extends BaseCommand
             }
         });
 
-        unlink($pidFile);
+        $this->fileSystem->remove($pidFile);
 
         echo $process->getOutput();
     }
@@ -94,8 +94,6 @@ class Start extends BaseCommand
         $quarantinePath     = dirname($quarantineFilePath);
         $backupFilePath     = $site->backupPath($relativeFilePath);
 
-//        $this->log("Processing {$event}...");
-
         switch ($event) {
             case 'MOVED_TO':
             case 'CREATE':
@@ -114,7 +112,7 @@ class Start extends BaseCommand
                     return;
                 }
 
-                rename($filePath, $quarantineFilePath);
+            $this->fileSystem->rename($filePath, $quarantineFilePath);
                 $this->log("{$filePath} quarantined to {$quarantineFilePath}");
 
 //                Event::block($filePath, $event, $site);
@@ -138,7 +136,7 @@ class Start extends BaseCommand
                     return;
                 }
 
-                copy($filePath, $quarantineFilePath);
+                $this->fileSystem->copy($filePath, $quarantineFilePath);
                 $this->log("{$filePath} quarantined to {$quarantineFilePath}");
 
 //                Event::block($filePath, $event, $site);
@@ -148,13 +146,13 @@ class Start extends BaseCommand
                 //...then restore backup if exists or remove file if not
                 if (is_file($backupFilePath)) {
                     if ($newFileHash !== $oldFileHash) {
-                        copy($backupFilePath, $filePath);
+                        $this->fileSystem->copy($backupFilePath, $filePath);
                         $this->log("{$backupFilePath} restored to {$filePath}");
                     } else {
                         $this->log("{$backupFilePath} is the same as {$filePath}");
                     }
                 } else {
-                    unlink($filePath);
+                    $this->fileSystem->remove($filePath);
                     $this->log("{$filePath} is removed because no backup file is found!");
                 }
                 break;
@@ -163,7 +161,7 @@ class Start extends BaseCommand
             case 'DELETE':
                 //file removed, restore
                 if (is_file($backupFilePath)) {
-                    copy($backupFilePath, $filePath);
+                    $this->fileSystem->copy($backupFilePath, $filePath);
                     $this->log("Restored {$backupFilePath} to {$filePath}");
 
 //                    Event::block($filePath, $event, $site);
