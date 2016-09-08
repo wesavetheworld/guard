@@ -118,16 +118,16 @@ class Start extends BaseCommand
                 $this->log("{$filePath} quarantined to {$quarantineFilePath}");
 
 //                Event::block($filePath, $event, $site);
+            //@TODO: log blocked event so it can be allowed
 
                 break;
+
             case 'MODIFY':
                 //file exists, first quarantine
-
                 if (!is_dir($quarantinePath)) {
                     mkdir($quarantinePath, 0755, true);
                 }
                 if (!is_file($filePath)) {
-                    $this->log("No such file {$filePath}");
                     return;
                 }
 
@@ -142,6 +142,8 @@ class Start extends BaseCommand
                 $this->log("{$filePath} quarantined to {$quarantineFilePath}");
 
 //                Event::block($filePath, $event, $site);
+                //@TODO: log blocked event so it can be allowed
+
 
                 //...then restore backup if exists or remove file if not
                 if (is_file($backupFilePath)) {
@@ -165,13 +167,15 @@ class Start extends BaseCommand
                     $this->log("Restored {$backupFilePath} to {$filePath}");
 
 //                    Event::block($filePath, $event, $site);
+                    //@TODO: log blocked event so it can be allowed
+
                 } else {
                     $this->log("No backup exists at {$backupFilePath}");
                 }
                 break;
 
             default:
-                $this->log("No action for {$event}");
+                $this->log("No action defined for {$event}");
         }
     }
 
