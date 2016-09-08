@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * Guard CLI - utility to live monitor website files and undo any changes
+ */
+
 require "vendor/autoload.php";
 
 use Symfony\Component\Console\Application;
