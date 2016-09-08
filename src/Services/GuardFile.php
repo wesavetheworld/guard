@@ -228,11 +228,10 @@ class GuardFile
 
 
     /**
-     *
+     * Write guardFile configuration
      */
     public function writeGuardFile()
     {
-        //write config file
         file_put_contents($this->file->getPathname(), json_encode($this->data, JSON_PRETTY_PRINT));
     }
 
@@ -245,7 +244,7 @@ class GuardFile
     }
 
     /**
-     *
+     * Write watch paths to file
      */
     public function writeWatchFile()
     {
@@ -253,7 +252,7 @@ class GuardFile
     }
 
     /**
-     *
+     * Dump guardFile config file, watched paths, etc...
      */
     public function dump()
     {
