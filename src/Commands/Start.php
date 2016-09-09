@@ -1,5 +1,8 @@
 <?php namespace Avram\Guard\Commands;
 
+use Avram\Guard\FileEvent;
+use Avram\Guard\Services\EventsFile;
+use Avram\Guard\Site;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
@@ -112,13 +115,12 @@ class Start extends BaseCommand
                     return;
                 }
 
-            $this->fileSystem->rename($filePath, $quarantineFilePath);
-                $this->log("{$filePath} quarantined to {$quarantineFilePath}");
+            $this->blockEvent($filePath, $event, $site);
 
-//                Event::block($filePath, $event, $site);
-            //@TODO: log blocked event so it can be allowed
+            $this->fileSystem->rename($filePath, $quarantineFilePath, true);
+            $this->log("{$filePath} quarantined to {$quarantineFilePath}");
 
-                break;
+            break;
 
             case 'MODIFY':
                 //file exists, first quarantine
@@ -136,17 +138,15 @@ class Start extends BaseCommand
                     return;
                 }
 
-                $this->fileSystem->copy($filePath, $quarantineFilePath);
+                $this->blockEvent($filePath, $event, $site);
+
+                $this->fileSystem->copy($filePath, $quarantineFilePath, true);
                 $this->log("{$filePath} quarantined to {$quarantineFilePath}");
-
-//                Event::block($filePath, $event, $site);
-                //@TODO: log blocked event so it can be allowed
-
 
                 //...then restore backup if exists or remove file if not
                 if (is_file($backupFilePath)) {
                     if ($newFileHash !== $oldFileHash) {
-                        $this->fileSystem->copy($backupFilePath, $filePath);
+                        $this->fileSystem->copy($backupFilePath, $filePath, true);
                         $this->log("{$backupFilePath} restored to {$filePath}");
                     } else {
                         $this->log("{$backupFilePath} is the same as {$filePath}");
@@ -161,11 +161,10 @@ class Start extends BaseCommand
             case 'DELETE':
                 //file removed, restore
                 if (is_file($backupFilePath)) {
-                    $this->fileSystem->copy($backupFilePath, $filePath);
+                    $this->fileSystem->copy($backupFilePath, $filePath, true);
                     $this->log("Restored {$backupFilePath} to {$filePath}");
 
-//                    Event::block($filePath, $event, $site);
-                    //@TODO: log blocked event so it can be allowed
+                    $this->blockEvent($filePath, $event, $site);
 
                 } else {
                     $this->log("No backup exists at {$backupFilePath}");
@@ -177,10 +176,28 @@ class Start extends BaseCommand
         }
     }
 
-    public function log($line)
+    protected function log($line)
     {
-//        $this->outputInterface->writeln($line);
-        file_put_contents(GUARD_USER_FOLDER.DIRECTORY_SEPARATOR.'guard.log', $line.PHP_EOL, FILE_APPEND);
+        file_put_contents(GUARD_USER_FOLDER.DIRECTORY_SEPARATOR.'guard.log', date('[d-m-Y @ H:i:s] ').$line.PHP_EOL, FILE_APPEND);
+    }
+
+    protected function blockEvent($path, $type, Site $site)
+    {
+        $eventsFile = new EventsFile();
+        $event      = $eventsFile->getFileEventByPath($path);
+
+        if (!$event) {
+            $event = new FileEvent($site->getName(), $path, $type);
+        } else if ($event->getType() != $type) {
+            $event->setAttempts(0);
+        }
+
+        $event->setSiteName($site->getName());
+        $event->increaseAttemptsCounter();
+        $event->setLastAttempt(time());
+
+        $eventsFile->updateFileEvent($event);
+        $eventsFile->dump();
     }
 
 }

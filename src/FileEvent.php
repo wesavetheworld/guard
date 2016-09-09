@@ -7,13 +7,15 @@ class FileEvent implements \JsonSerializable
     const BLOCKED = 'BLOCKED';
     const NOTIFIED = 'NOTIFIED';
 
-    public function __construct($siteName, $path, $type, $attempts, $status = self::BLOCKED)
+    public function __construct($siteName, $path, $type = 'DELETE', $attempts = 0, $status = self::BLOCKED, $firstAttempt = null, $lastAttempt = null)
     {
-        $this->siteName = $siteName;
-        $this->path     = $path;
-        $this->type     = $type;
-        $this->attempts = (int)$attempts;
-        $this->status   = $status;
+        $this->siteName     = $siteName;
+        $this->path         = $path;
+        $this->type         = $type;
+        $this->attempts     = (int)$attempts;
+        $this->status       = $status;
+        $this->firstAttempt = empty($firstAttempt) ? time() : (int)$firstAttempt;
+        $this->lastAttempt  = empty($lastAttempt) ? time() : (int)$lastAttempt;
     }
 
     /**
@@ -80,6 +82,11 @@ class FileEvent implements \JsonSerializable
         $this->type = $type;
     }
 
+    public function setAttempts($attempts)
+    {
+        $this->attempts = (int)$attempts;
+    }
+
     public function getAttempts()
     {
         return (int)$this->attempts;
@@ -138,12 +145,6 @@ class FileEvent implements \JsonSerializable
         $this->lastAttempt = $lastAttempt;
     }
 
-
-    public static function block($path, $event, $site)
-    {
-
-    }
-
     /**
      * Specify data which should be serialized to JSON
      * @link  http://php.net/manual/en/jsonserializable.jsonserialize.php
@@ -164,9 +165,22 @@ class FileEvent implements \JsonSerializable
         return $obj;
     }
 
-    public static function fromJSON($json)
+    /**
+     * @param \stdClass $json
+     *
+     * @return FileEvent
+     */
+    public static function fromJSONObject($json)
     {
-        $obj = new FileEvent($json->site, $json->path, $json->type, $json->attempts, $json->status);
-        return $obj;
+        if (!is_object($json)) {
+            return false;
+        }
+
+        return new FileEvent($json->site, $json->path, $json->type, $json->attempts, $json->status, $json->first_attempt, $json->last_attempt);
+    }
+
+    public static function fromJSONString($jsonString)
+    {
+        return static::fromJSONObject(json_decode($jsonString));
     }
 }

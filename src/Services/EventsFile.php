@@ -51,59 +51,42 @@ class EventsFile
         $this->data = $events;
     }
 
-    public function findFileEventsIndicesBy(array $args)
+    public function getFileEventIndexByPath($path)
     {
-        $result = [];
         for ($i = 0; $i < count($this->data); $i++) {
-            $shouldContinue = true;
-            foreach ($args as $param => $value) {
-                if ($this->data->{$param} != $value) {
-                    $shouldContinue = false;
-                }
-            }
-
-            if ($shouldContinue) {
-                $result[] = $i;
+            if ($this->data[$i]->path == $path) {
+                return $i;
             }
         }
 
-        return $result;
+        return false;
     }
 
-    /**
-     * @param array $args
-     *
-     * @return array
-     */
-    public function findFileEventsBy(array $args)
+    public function getFileEventByPath($path)
     {
-        $result  = [];
-        $indices = $this->findFileEventsIndicesBy($args);
-
-        foreach ($indices as $index) {
-            $event    = $this->data[$index];
-            $result[] = new FileEvent($event->site, $event->path, $event->type, $event->attempts, $event->status);
+        $index = $this->getFileEventIndexByPath($path);
+        if ($index === false) {
+            return false;
         }
 
-        return $result;
+        return FileEvent::fromJSONObject($this->data[$index]);
     }
 
     public function updateFileEvent(FileEvent $event, $position = null)
     {
         if ($position === null) {
-            $index = $this->findFileEventsIndicesBy([
-                'name' => $event->getSiteName(),
-            ])[0];
-            if (count($index) < 1) {
-                return false;
-            }
-            $index = $index[0];
+            $index = $this->getFileEventIndexByPath($event->getPath());
         } else {
             $index = (int)$position;
         }
 
         $this->data[$index] = $event->jsonSerialize();
         return true;
+    }
+
+    public function dump()
+    {
+        file_put_contents($this->fileName, json_encode($this->data, JSON_PRETTY_PRINT));
     }
 
 }
