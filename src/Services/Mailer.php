@@ -64,12 +64,13 @@ class Mailer
             </div>
             <div>
                 {$body}
+                <p><small>Please do NOT reply to this message! Your reply will not be seen by anyone.</small></p>
             </div>
         </div>
         </div>
     <div style="margin-top: 30px; text-align: center">
         <p>
-            <small><a href="https://avramovic.github.io/php-guard" target="_blank">PHP Guard</a></small>
+            <small><a href="https://avramovic.github.io/guard" target="_blank">Guard</a></small>
         </p>
         </div>
     </div>
@@ -79,7 +80,7 @@ HTML;
 
 
         $message->setBody($html, 'text/html');
-        $message->addPart(strip_tags($body), 'text/plain');
+        $message->addPart(strip_tags($body).PHP_EOL.PHP_EOL.'Please do NOT reply to this message! Your reply will not be seen by anyone.', 'text/plain');
     }
 
     protected function getFromAddress(Site $site = null)
@@ -90,20 +91,51 @@ HTML;
 
         $ip = gethostbyname($site->getName());
         if ($ip == $site->getName()) {
-            return 'php-guard@avramovic.github.io';
+            return 'guard@avramovic.github.io';
         }
 
-        return 'php-guard@'.$site->getName();
+        return 'guard@'.$site->getName();
     }
 
     public function sendTestEmail($to, $from = null)
     {
-        /** @var Site $site */
-        $message = \Swift_Message::newInstance("PHP Guard test email")
+        $message = \Swift_Message::newInstance("Guard test email")
             ->setFrom($from ? $from : $to)
             ->setTo($to);
 
         $this->addBody($message, '<p>If you are reading this then Guard is working and can send emails from your server!</p><p>Please do NOT reply to this e-mail!</p>');
+
+        return $this->mailer->send($message);
+    }
+
+    public function sendNotificationEmail($email, Site $site, array $files)
+    {
+        $message = \Swift_Message::newInstance("PHP Guard file tampering notification")
+            ->setFrom($this->getFromAddress($site))
+            ->setTo($email);
+
+        $siteName = $site->getName();
+
+        $body = "<p>We are notifying you that something tried to tamper with one or more files on your site <strong>{$siteName}</strong></p>\n";
+        $body .= "<p>These file events were blocked so far:</p>\n";
+
+        $body .= "<table border='1' cellspacing='0' cellpadding='2'>\n";
+        $body .= "<tr><td><strong>Path</strong></td> <td><strong>Event</strong></td></tr>\n";
+
+        foreach ($files as $path => $event) {
+            $body .= "<tr><td>{$path}</td> <td>{$event}</td></tr>\n";
+        }
+
+        $body .= "</table>\n";
+        $body .= "<p>Please SSH to your server and review these events by using following commands:<br/>\n";
+        $body .= "<code>guard event:list</code> to show blocked events<br/>\n";
+        $body .= "<code>guard event:diff [id]</code> to show modifications<br/>\n";
+        $body .= "<code>guard event:allow [id|all]</code> to allow event(s) to occur<br/>\n";
+        $body .= "<code>guard event:remove [id|all]</code> to forget event(s) and remove them<br/>\n";
+        $body .= "</p>\n";
+
+
+        $this->addBody($message, $body);
 
         return $this->mailer->send($message);
     }
