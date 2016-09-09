@@ -1,6 +1,6 @@
 {
-    name: "guard.phar",
-    sha1: "a34f05b88f143cf0f3b00781f675fc530d03b0b6",
-    url: "http://avramovic.github.io/guard/downloads/guard-0.0.1.phar",
-    version: "0.0.1"
+    "name": "guard.phar",
+    "sha1": "SHA1(guard.phar)= d29601c847f6952ab95f41f84b116c7c47b49578",
+    "url": "http://avramovic.github.io/guard/downloads/guard-0.0.1.phar",
+    "version": "0.0.1"
 }
