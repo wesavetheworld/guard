@@ -40,7 +40,7 @@ class EventsFile
     {
         $result = [];
         foreach ($this->data as $ev) {
-            $result[] = new FileEvent($ev->site, $ev->path, $ev->type, $ev->attempts, $ev->status);
+            $result[] = new FileEvent($ev->site, $ev->path, $ev->type, $ev->attempts, $ev->status, $ev->first_attempt, $ev->last_attempt);
         }
 
         return $result;
@@ -82,6 +82,18 @@ class EventsFile
 
         $this->data[$index] = $event->jsonSerialize();
         return true;
+    }
+
+    public function addEvent(FileEvent $event)
+    {
+        $this->data[] = $event->jsonSerialize();
+    }
+
+    public function removeEvent(FileEvent $event)
+    {
+        $this->data = array_filter($this->data, function ($elem) use ($event) {
+            return ($elem->path != $event->getPath());
+        });
     }
 
     public function dump()

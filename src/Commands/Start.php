@@ -1,7 +1,6 @@
 <?php namespace Avram\Guard\Commands;
 
 use Avram\Guard\FileEvent;
-use Avram\Guard\Services\EventsFile;
 use Avram\Guard\Site;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -183,21 +182,25 @@ class Start extends BaseCommand
 
     protected function blockEvent($path, $type, Site $site)
     {
-        $eventsFile = new EventsFile();
-        $event      = $eventsFile->getFileEventByPath($path);
+        $event = $this->eventsFile->getFileEventByPath($path);
 
         if (!$event) {
-            $event = new FileEvent($site->getName(), $path, $type);
-        } else if ($event->getType() != $type) {
-            $event->setAttempts(0);
+            $event = new FileEvent($site->getName(), $path, $type, 1, FileEvent::BLOCKED);
+            $this->eventsFile->addEvent($event);
+        } else {
+
+            if ($event->getType() != $type) {
+                $event->setAttempts(0);
+                $event->setType($type);
+            }
+
+            $event->increaseAttemptsCounter();
+            $event->setSiteName($site->getName());
+            $event->setLastAttempt(time());
+            $this->eventsFile->updateFileEvent($event);
         }
 
-        $event->setSiteName($site->getName());
-        $event->increaseAttemptsCounter();
-        $event->setLastAttempt(time());
-
-        $eventsFile->updateFileEvent($event);
-        $eventsFile->dump();
+        $this->eventsFile->dump();
     }
 
 }

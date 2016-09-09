@@ -1,6 +1,7 @@
 <?php namespace Avram\Guard\Commands;
 
 use Avram\Guard\Exceptions\GuardFileException;
+use Avram\Guard\Services\EventsFile;
 use Avram\Guard\Services\GuardFile;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
@@ -19,10 +20,13 @@ abstract class BaseCommand extends Command
     protected $outputInterface;
 
     /** @var GuardFile */
-    public $guardFile;
+    protected $guardFile;
+
+    /** @var EventsFile */
+    protected $eventsFile;
 
     /** @var Filesystem */
-    public $fileSystem;
+    protected $fileSystem;
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -39,6 +43,7 @@ abstract class BaseCommand extends Command
         }
 
         $this->fileSystem = new Filesystem();
+        $this->eventsFile = new EventsFile();
     }
 
     public function error($message, $title = "Error!", $exitCode = 1)
