@@ -23,6 +23,7 @@ $commands = [
     Avram\Guard\Commands\Stop::class,
 
     Avram\Guard\Commands\EventList::class,
+    Avram\Guard\Commands\EventAllow::class,
 ];
 
 // ensure ~/.guard folder exists

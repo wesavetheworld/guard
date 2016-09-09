@@ -44,7 +44,9 @@ class SiteSet extends BaseCommand
 
         switch ($variable) {
             case 'name':
+                $this->fileSystem->remove($site->backupPath());
                 $site->setName($value[0]);
+                $this->fileSystem->mirror($site->getPath(), $site->backupPath());
                 break;
             case 'path':
                 $site->setPath($value[0]);

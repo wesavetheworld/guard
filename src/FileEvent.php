@@ -1,5 +1,7 @@
 <?php namespace Avram\Guard;
 
+use Avram\Guard\Services\GuardFile;
+
 class FileEvent implements \JsonSerializable
 {
     protected $id, $siteName, $path, $type, $attempts, $status, $firstAttempt, $lastAttempt;
@@ -7,9 +9,8 @@ class FileEvent implements \JsonSerializable
     const BLOCKED = 'BLOCKED';
     const NOTIFIED = 'NOTIFIED';
 
-    public function __construct($siteName, $path, $type = 'DELETE', $attempts = 0, $status = self::BLOCKED, $firstAttempt = null, $lastAttempt = null)
+    public function __construct($path, $type = 'DELETE', $attempts = 0, $status = self::BLOCKED, $firstAttempt = null, $lastAttempt = null)
     {
-        $this->siteName     = $siteName;
         $this->path         = $path;
         $this->type         = $type;
         $this->attempts     = (int)$attempts;
@@ -97,20 +98,9 @@ class FileEvent implements \JsonSerializable
         $this->attempts += 1;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getSiteName()
+    public function getSite(GuardFile $guardFile)
     {
-        return $this->siteName;
-    }
-
-    /**
-     * @param mixed $siteName
-     */
-    public function setSiteName($siteName)
-    {
-        $this->siteName = $siteName;
+        return $guardFile->findSiteByLongPath($this->getPath());
     }
 
     /**
@@ -155,7 +145,6 @@ class FileEvent implements \JsonSerializable
     function jsonSerialize()
     {
         $obj                = new \stdClass();
-        $obj->site          = $this->getSiteName();
         $obj->path          = $this->getPath();
         $obj->type          = $this->getType();
         $obj->attempts      = $this->getAttempts();
@@ -176,7 +165,7 @@ class FileEvent implements \JsonSerializable
             return false;
         }
 
-        return new FileEvent($json->site, $json->path, $json->type, $json->attempts, $json->status, $json->first_attempt, $json->last_attempt);
+        return new FileEvent($json->path, $json->type, $json->attempts, $json->status, $json->first_attempt, $json->last_attempt);
     }
 
     public static function fromJSONString($jsonString)

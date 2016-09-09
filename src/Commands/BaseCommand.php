@@ -28,10 +28,9 @@ abstract class BaseCommand extends Command
     /** @var Filesystem */
     protected $fileSystem;
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    public function __construct($name = null)
     {
-        $this->inputInterface  = $input;
-        $this->outputInterface = $output;
+        parent::__construct($name);
 
         $this->guardFile = null;
 
@@ -44,6 +43,12 @@ abstract class BaseCommand extends Command
 
         $this->fileSystem = new Filesystem();
         $this->eventsFile = new EventsFile();
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $this->inputInterface  = $input;
+        $this->outputInterface = $output;
     }
 
     public function error($message, $title = "Error!", $exitCode = 1)

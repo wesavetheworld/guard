@@ -103,12 +103,12 @@ class Start extends BaseCommand
                 if (!is_dir($quarantinePath)) {
                     mkdir($quarantinePath, 0755, true);
                 }
-                if (!is_file($filePath)) {
+                if (!$this->fileSystem->exists($filePath)) {
                     return;
                 }
 
                 $newFileHash = md5_file($filePath);
-                $oldFileHash = is_file($backupFilePath) ? md5_file($backupFilePath) : false;
+                $oldFileHash = $this->fileSystem->exists($backupFilePath) ? md5_file($backupFilePath) : false;
                 if ($newFileHash === $oldFileHash) {
                     $this->log("{$backupFilePath} is the same as {$filePath}");
                     return;
@@ -126,12 +126,12 @@ class Start extends BaseCommand
                 if (!is_dir($quarantinePath)) {
                     mkdir($quarantinePath, 0755, true);
                 }
-                if (!is_file($filePath)) {
+                if (!$this->fileSystem->exists($filePath)) {
                     return;
                 }
 
                 $newFileHash = md5_file($filePath);
-                $oldFileHash = is_file($backupFilePath) ? md5_file($backupFilePath) : false;
+                $oldFileHash = $this->fileSystem->exists($backupFilePath) ? md5_file($backupFilePath) : false;
                 if ($newFileHash === $oldFileHash) {
                     $this->log("{$backupFilePath} is the same as {$filePath}");
                     return;
@@ -143,7 +143,7 @@ class Start extends BaseCommand
                 $this->log("{$filePath} quarantined to {$quarantineFilePath}");
 
                 //...then restore backup if exists or remove file if not
-                if (is_file($backupFilePath)) {
+                if ($this->fileSystem->exists($backupFilePath)) {
                     if ($newFileHash !== $oldFileHash) {
                         $this->fileSystem->copy($backupFilePath, $filePath, true);
                         $this->log("{$backupFilePath} restored to {$filePath}");
@@ -159,7 +159,7 @@ class Start extends BaseCommand
             case 'MOVED_FROM':
             case 'DELETE':
                 //file removed, restore
-                if (is_file($backupFilePath)) {
+                if ($this->fileSystem->exists($backupFilePath)) {
                     $this->fileSystem->copy($backupFilePath, $filePath, true);
                     $this->log("Restored {$backupFilePath} to {$filePath}");
 
@@ -185,7 +185,7 @@ class Start extends BaseCommand
         $event = $this->eventsFile->getFileEventByPath($path);
 
         if (!$event) {
-            $event = new FileEvent($site->getName(), $path, $type, 1, FileEvent::BLOCKED);
+            $event = new FileEvent($path, $type, 1, FileEvent::BLOCKED);
             $this->eventsFile->addEvent($event);
         } else {
 
@@ -195,7 +195,6 @@ class Start extends BaseCommand
             }
 
             $event->increaseAttemptsCounter();
-            $event->setSiteName($site->getName());
             $event->setLastAttempt(time());
             $this->eventsFile->updateFileEvent($event);
         }

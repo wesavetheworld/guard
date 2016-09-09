@@ -40,7 +40,7 @@ class EventsFile
     {
         $result = [];
         foreach ($this->data as $ev) {
-            $result[] = new FileEvent($ev->site, $ev->path, $ev->type, $ev->attempts, $ev->status, $ev->first_attempt, $ev->last_attempt);
+            $result[] = new FileEvent($ev->path, $ev->type, $ev->attempts, $ev->status, $ev->first_attempt, $ev->last_attempt);
         }
 
         return $result;
