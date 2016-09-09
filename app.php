@@ -19,13 +19,16 @@ $commands = [
     Avram\Guard\Commands\EmailSet::class,
     Avram\Guard\Commands\EmailShow::class,
     Avram\Guard\Commands\EmailTest::class,
+    Avram\Guard\Commands\EmailNotify::class,
 
     Avram\Guard\Commands\Start::class,
     Avram\Guard\Commands\Stop::class,
+    Avram\Guard\Commands\Update::class,
 
     Avram\Guard\Commands\EventList::class,
     Avram\Guard\Commands\EventAllow::class,
     Avram\Guard\Commands\EventRemove::class,
+    Avram\Guard\Commands\EventDiff::class,
 ];
 
 // ensure ~/.guard folder exists
@@ -39,7 +42,7 @@ if (!$appFolder->isDir()) {
 define('GUARD_USER_FOLDER', $appFolder->getPathname());
 
 // bootstrap the application
-$application = new Application('Guard', '0.1-dev');
+$application = new Application('PHP Guard', '@git-version@');
 foreach ($commands as $command) {
     $application->add(new $command);
 }
