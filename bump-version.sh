@@ -51,20 +51,20 @@ box build
 #
 git checkout gh-pages
 
-cp cliph.phar downloads/cliph-${TAG}.phar
-git add downloads/cliph-${TAG}.phar
+cp guard.phar downloads/guard-${TAG}.phar
+git add downloads/guard-${TAG}.phar
 
-SHA1=$(openssl sha1 cliph.phar)
+SHA1=$(openssl sha1 guard.phar)
 
-JSON='name:"cliph.phar"'
+JSON='name:"guard.phar"'
 JSON="${JSON},sha1:\"${SHA1}\""
-JSON="${JSON},url:\"http://mattketmo.github.io/cliph/downloads/cliph-${TAG}.phar\""
+JSON="${JSON},url:\"http://avramovic.github.io/guard/downloads/guard-${TAG}.phar\""
 JSON="${JSON},version:\"${TAG}\""
 
-if [ -f cliph.phar.pubkey ]; then
-    cp cliph.phar.pubkey pubkeys/cliph-${TAG}.phar.pubkeys
-    git add pubkeys/cliph-${TAG}.phar.pubkeys
-    JSON="${JSON},publicKey:\"http://mattketmo.github.io/cliph/pubkeys/cliph-${TAG}.phar.pubkey\""
+if [ -f guard.phar.pubkey ]; then
+    cp guard.phar.pubkey pubkeys/guard-${TAG}.phar.pubkeys
+    git add pubkeys/guard-${TAG}.phar.pubkeys
+    JSON="${JSON},publicKey:\"http://avramovic.github.io/guard/pubkeys/guard-${TAG}.phar.pubkey\""
 fi
 
 #
