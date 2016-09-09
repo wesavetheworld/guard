@@ -8,7 +8,7 @@
     "directories": ["."],
     "extract": true,
     "files": [
-
+        "vendor/herrera-io/phar-update/res/schema.json"
     ],
     "finder": [
         {
@@ -29,7 +29,7 @@
     "main": "app.php",
     "output": "guard.phar",
     "replacements": {
-        "manifest_url": "manifest.json"
+        "manifest_url": "http://avramovic.github.io/guard/manifest.json"
     },
     "stub": true
 }
