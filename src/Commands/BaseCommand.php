@@ -3,6 +3,7 @@
 use Avram\Guard\Exceptions\GuardFileException;
 use Avram\Guard\Services\EventsFile;
 use Avram\Guard\Services\GuardFile;
+use Avram\Guard\Services\Mailer;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -37,12 +38,13 @@ abstract class BaseCommand extends Command
         try {
             $this->guardFile = new GuardFile();
         } catch (GuardFileException $ex) {
-            $output->writeln($ex->getMessage());
+            echo $ex->getMessage();
             exit(1);
         }
 
         $this->fileSystem = new Filesystem();
         $this->eventsFile = new EventsFile();
+        $this->mailer     = new Mailer($this->guardFile);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

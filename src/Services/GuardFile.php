@@ -45,14 +45,16 @@ class GuardFile
         $this->data        = new \stdClass();
         $this->data->sites = (isset($json->sites) && is_array($json->sites)) ? $json->sites : [];
 
-        $this->data->email            = new \stdClass();
-        $this->data->email->address   = isset($json->email->address) ? $json->email->address : null;
-        $this->data->email->transport = isset($json->email->transport) ? $json->email->transport : 'mail';
-        $this->data->email->sendmail  = isset($json->email->sendmail) ? $json->email->sendmail : '/usr/sbin/sendmail -bs';
-        $this->data->email->smtp_host = isset($json->email->smtp_host) ? $json->email->smtp_host : '';
-        $this->data->email->smtp_port = isset($json->email->smtp_port) ? (int)$json->email->smtp_port : 25;
-        $this->data->email->smtp_user = isset($json->email->smtp_user) ? $json->email->smtp_user : '';
-        $this->data->email->smtp_pass = isset($json->email->smtp_pass) ? $json->email->smtp_pass : '';
+        $this->data->email               = new \stdClass();
+        $this->data->email->sender       = isset($json->email->address) ? $json->email->address : null;
+        $this->data->email->address      = isset($json->email->address) ? $json->email->address : null;
+        $this->data->email->transport    = isset($json->email->transport) ? $json->email->transport : 'mail';
+        $this->data->email->sendmail     = isset($json->email->sendmail) ? $json->email->sendmail : '/usr/sbin/sendmail -bs';
+        $this->data->email->smtp_host    = isset($json->email->smtp_host) ? $json->email->smtp_host : '';
+        $this->data->email->smtp_port    = isset($json->email->smtp_port) ? (int)$json->email->smtp_port : 25;
+        $this->data->email->smtp_user    = isset($json->email->smtp_user) ? $json->email->smtp_user : '';
+        $this->data->email->smtp_pass    = isset($json->email->smtp_pass) ? $json->email->smtp_pass : '';
+        $this->data->email->smtp_encrypt = isset($json->email->smtp_encrypt) ? $json->email->smtp_encrypt : null;
     }
 
     /**

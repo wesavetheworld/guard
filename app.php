@@ -18,6 +18,7 @@ $commands = [
 
     Avram\Guard\Commands\EmailSet::class,
     Avram\Guard\Commands\EmailShow::class,
+    Avram\Guard\Commands\EmailTest::class,
 
     Avram\Guard\Commands\Start::class,
     Avram\Guard\Commands\Stop::class,

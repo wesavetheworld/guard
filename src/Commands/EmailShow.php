@@ -29,11 +29,12 @@ class EmailShow extends BaseCommand
                 $row[]  = $this->guardFile->getEmail('sendmail');
                 break;
             case 'smtp':
-                $header = array('Address', 'Transport', 'SMTP host', 'SMTP port', 'SMTP username', 'SMTP password');
-                $row[]  = $this->guardFile->getEmail('smtp_host');
-                $row[]  = $this->guardFile->getEmail('smtp_port');
-                $row[]  = $this->guardFile->getEmail('smtp_user');
-                $row[]  = '*hidden*';
+                $header     = array('Address', 'Transport', 'SMTP host', 'SMTP port', 'SMTP username', 'Encryption');
+                $row[]      = $this->guardFile->getEmail('smtp_host');
+                $row[]      = $this->guardFile->getEmail('smtp_port');
+                $row[]      = $this->guardFile->getEmail('smtp_user');
+                $encryption = $this->guardFile->getEmail('smtp_encrypt');
+                $row[]      = empty($encryption) ? 'none' : $encryption;
                 break;
             default:
                 $header = array('Address', 'Transport');

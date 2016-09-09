@@ -28,7 +28,7 @@ class EmailSet extends BaseCommand
         $variable = $input->getArgument('variable');
         $value    = $input->getArgument('value');
 
-        $allowed = ['address', 'transport', 'sendmail', 'smtp_host', 'smtp_port', 'smtp_user', 'smtp_pass'];
+        $allowed = ['address', 'transport', 'sendmail', 'smtp_host', 'smtp_port', 'smtp_user', 'smtp_pass', 'smtp_encrypt'];
         if (!in_array($variable, $allowed)) {
             $this->error("Invalid variable name: {$variable}, can be only one of: ".implode(', ', $allowed));
         }
