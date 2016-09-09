@@ -27,7 +27,7 @@
     "git-commit": "git-commit",
     "git-version": "git-version",
     "main": "app.php",
-    "output": "guard-@git-version@.phar",
+    "output": "guard.phar",
     "replacements": {
         "manifest_url": "manifest.json"
     },
