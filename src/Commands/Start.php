@@ -1,6 +1,7 @@
 <?php namespace Avram\Guard\Commands;
 
 use Avram\Guard\FileEvent;
+use Avram\Guard\Services\EventsFile;
 use Avram\Guard\Site;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -64,8 +65,9 @@ class Start extends BaseCommand
 
     protected function handle($filePath, $event)
     {
-        $dir  = dirname($filePath);
-        $site = $this->guardFile->findSiteByLongPath($filePath);
+        $this->eventsFile = new EventsFile();
+        $dir              = dirname($filePath);
+        $site             = $this->guardFile->findSiteByLongPath($filePath);
 
         if ($site == null) {
             $this->log("Site not found on path {$dir}");

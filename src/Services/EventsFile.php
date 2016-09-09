@@ -94,9 +94,16 @@ class EventsFile
 
     public function removeEvent(FileEvent $event)
     {
-        $this->data = array_filter($this->data, function ($elem) use ($event) {
+        $filtered = array_filter($this->data, function ($elem) use ($event) {
             return ($elem->path != $event->getPath());
         });
+
+        $this->data = [];
+
+        foreach ($filtered as $ev) {
+            $this->data[] = $ev;
+        }
+
     }
 
     public function dump()
