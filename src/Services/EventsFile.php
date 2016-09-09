@@ -36,6 +36,9 @@ class EventsFile
         $this->data = $json;
     }
 
+    /**
+     * @return array
+     */
     public function getEvents()
     {
         $result = [];

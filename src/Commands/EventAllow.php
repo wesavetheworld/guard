@@ -7,6 +7,7 @@ use Avram\Guard\FileEvent;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class EventAllow extends BaseCommand
@@ -20,6 +21,7 @@ class EventAllow extends BaseCommand
             ->setDefinition(
                 new InputDefinition([
                     new InputArgument('id', InputArgument::REQUIRED | InputArgument::IS_ARRAY, 'ID of the event to allow'),
+                    new InputOption('silent', 'S', InputOption::VALUE_OPTIONAL, 'Do not ask any questions', false),
                 ])
             );
     }
@@ -28,81 +30,90 @@ class EventAllow extends BaseCommand
     {
         parent::execute($input, $output);
 
-        $ids = $input->getArgument('id');
+        $ids    = $input->getArgument('id');
+        $silent = $input->getOption('silent');
+        $events = $this->eventsFile->getEvents();
+
+        if ($ids[0] === 'all') {
+            $ids = range(1, count($events));
+        }
 
         foreach ($ids as $id) {
-            $this->allow($id);
-        }
+            if (!isset($events[$id - 1])) {
+                $this->error("Event with ID #{$id} does not exist!");
+            }
 
+            /** @var FileEvent $event */
+            $event = $events[$id - 1];
+            if (!$silent) {
+                $type     = $event->getType();
+                $filePath = $event->getPath();
+                $this->outputInterface->writeln("You are about to allow event {$type} on {$filePath}.");
+                $this->outputInterface->writeln("Note that this can NOT be undone!");
+                if (!$this->confirm('Do you wish to continue?')) {
+                    break;
+                }
+
+                $this->allow($event);
+            }
+
+        }
     }
 
-    public function allow($id)
+    public function allow(FileEvent $event)
     {
-        $eventsNum = count($this->eventsFile->getEvents());
-
-        if ($id < 0 || $id > $eventsNum) {
-            $this->error("Event with ID #{$id} does not exist!");
-        }
-
-        /** @var FileEvent $event */
-        $event = $this->eventsFile->getEvents()[$id - 1];
-
-        $type     = $event->getType();
-        $filePath = $event->getPath();
-
+        $type               = $event->getType();
         $site               = $event->getSite($this->guardFile);
+        $filePath           = $event->getPath();
         $relativeFilePath   = ltrim(str_replace($site->getPath(), '', $filePath), DIRECTORY_SEPARATOR);
         $quarantineFilePath = $site->quarantinePath($relativeFilePath);
         $backupFilePath     = $site->backupPath($relativeFilePath);
         $backupBasePath     = dirname($backupFilePath);
         $fileBasePath       = dirname($filePath);
 
-        $this->outputInterface->writeln("You are about to allow event {$type} on {$filePath}.");
-        $this->outputInterface->writeln("Note that this can NOT be undone!");
 
-        if ($this->confirm('Do you wish to continue?')) {
-            switch ($type) {
-                case 'MOVED_TO':
-                case 'CREATE':
-                case 'MODIFY':
-                    if (is_file($quarantineFilePath)) {
-                        if (!is_dir($backupBasePath)) {
-                            mkdir($backupBasePath, 0755, true);
-                        }
-                        $this->fileSystem->copy($quarantineFilePath, $backupFilePath, true);
-                        if (!is_dir($fileBasePath)) {
-                            mkdir($fileBasePath, 0755, true);
-                        }
-                        $this->fileSystem->copy($quarantineFilePath, $filePath, true);
-                        $this->fileSystem->remove($quarantineFilePath);
-                        $this->outputInterface->writeln("Allowed {$type} on {$filePath}.");
-                    } else {
-                        $this->error("Quarantined file {$quarantineFilePath} NOT found!");
+        switch ($type) {
+            case 'MOVED_TO':
+            case 'CREATE':
+            case 'MODIFY':
+                if (is_file($quarantineFilePath)) {
+                    if (!is_dir($backupBasePath)) {
+                        mkdir($backupBasePath, 0755, true);
                     }
-
-                    break;
-                case 'MOVED_FROM':
-                case 'DELETE':
-
-                    if ($this->fileSystem->exists($quarantineFilePath)) {
-                        $this->fileSystem->remove($quarantineFilePath);
+                    $this->fileSystem->copy($quarantineFilePath, $backupFilePath, true);
+                    if (!is_dir($fileBasePath)) {
+                        mkdir($fileBasePath, 0755, true);
                     }
-
-                    if ($this->fileSystem->exists($backupFilePath)) {
-                        $this->fileSystem->remove($backupFilePath);
-                    }
-
-                    if ($this->fileSystem->exists($filePath)) {
-                        $this->fileSystem->remove($filePath);
-                    }
-
+                    $this->fileSystem->copy($quarantineFilePath, $filePath, true);
+                    $this->fileSystem->remove($quarantineFilePath);
                     $this->outputInterface->writeln("Allowed {$type} on {$filePath}.");
+                } else {
+                    $this->error("Quarantined file {$quarantineFilePath} NOT found!");
+                }
 
-                    break;
-            }
+                break;
+            case 'MOVED_FROM':
+            case 'DELETE':
 
-            $this->eventsFile->removeEvent($event);
-            $this->eventsFile->dump();
+                if ($this->fileSystem->exists($quarantineFilePath)) {
+                    $this->fileSystem->remove($quarantineFilePath);
+                }
+
+                if ($this->fileSystem->exists($backupFilePath)) {
+                    $this->fileSystem->remove($backupFilePath);
+                }
+
+                if ($this->fileSystem->exists($filePath)) {
+                    $this->fileSystem->remove($filePath);
+                }
+
+                $this->outputInterface->writeln("Allowed {$type} on {$filePath}.");
+
+                break;
         }
+
+        $this->eventsFile->removeEvent($event);
+        $this->eventsFile->dump();
+
     }
 }
