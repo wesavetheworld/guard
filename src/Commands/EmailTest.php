@@ -39,7 +39,7 @@ class EmailTest extends BaseCommand
 
         $transport = $this->guardFile->getEmail('transport');
 
-        $output->writeln("Sending email to {$email} using transport {$transport}...");
+        $output->writeln("Sending email to {$email} using {$transport} transport...");
 
         $sent = $this->mailer->sendTestEmail($email);
         if ($sent) {
