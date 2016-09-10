@@ -178,13 +178,13 @@ Add folder to site excludes:
 
 ### exclude:remove
 
-Remove folder to site excludes.
+Remove folder from site excludes.
 
 > **Note**: You must restart (stop/start) Guard after using this command for the changes to take effect.
 
 #### Example(s)
 
-Remove folder to site excludes.
+Remove folder from site excludes:
 
     php guard.phar exclude:remove example.com /path/to/excluded/folder
 
