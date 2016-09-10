@@ -25,7 +25,7 @@ git checkout --quiet master
 
 # BACK TO MASTER AND BUILD
 git checkout master
-git tag {$TAG}
+git tag ${TAG}
 box build
 
 # NOW UPDATE WEBSITE
