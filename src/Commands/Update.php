@@ -44,7 +44,7 @@ class Update extends BaseCommand
 
         if ($input->getOption('rollback')) {
             $updater->rollback();
-            $output->writeln('Rolled back Guard to previous version.');
+            $output->writeln('Rolled back to previous version.');
             $this->call('', ['--version']);
             exit(0);
         }
@@ -54,14 +54,14 @@ class Update extends BaseCommand
             if ($result) {
                 $new = $updater->getNewVersion();
                 $old = $updater->getOldVersion();
-                exit(sprintf(
+                $output->writeln(sprintf(
                     'Updated from SHA-1 %s to SHA-1 %s', $old, $new
                 ));
             } else {
-                exit('No update needed!');
+                $output->writeln('No update needed!');
             }
         } catch (\Exception $e) {
-            exit('Well, something happened! Either an oopsie or something involving hackers.');
+            $output->writeln('Well, something happened! Either an oopsie or something involving hackers.');
         }
     }
 }
