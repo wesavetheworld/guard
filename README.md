@@ -355,4 +355,8 @@ Update Guard to the latest version:
 
 `php guard.phar update`
 
+Rollback Guard to the previous version:
+
+`php guard.phar update --rollback`
+
 > **Note**: If you have Guard installed globally, you may need to run this command with sudo!
