@@ -91,7 +91,7 @@ HTML;
 
         $ip = gethostbyname($site->getName());
         if ($ip == $site->getName()) {
-            return $this->guardFile->getEmail('address');
+            return $site->getEmail();
         }
 
         return 'guard-notifications@'.$site->getName();
