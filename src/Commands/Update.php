@@ -45,24 +45,20 @@ class Update extends BaseCommand
         if ($input->getOption('rollback')) {
             $updater->rollback();
             $output->writeln('Rolled back to previous version.');
-            $this->call('', ['--version']);
+            $this->call('list', ['--version']);
             exit(0);
         }
 
         try {
             $result = $updater->update();
             if ($result) {
-                $new = $updater->getNewVersion();
-                $old = $updater->getOldVersion();
-                $output->writeln(sprintf(
-                    'Updated from SHA-1 %s to SHA-1 %s', $old, $new
-                ));
+                $output->writeln('Updated to latest version.');
             } else {
                 $output->writeln('No update needed!');
             }
+            $this->call('list', ['--version']);
         } catch (\Exception $e) {
-            $output->writeln('Well, something happened! Either an oopsie or something involving hackers.');
-            $output->writeln($e->getMessage());
+            $this->error($e->getMessage());
         }
     }
 }
