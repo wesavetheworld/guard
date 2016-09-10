@@ -37,9 +37,7 @@ git add downloads/guard.phar
 git add downloads/guard.version
 git commit -m "Bump version ${SHA1}"
 
-#
-# Go back to master
-#
+# GO BACK TO MASTER
 git checkout master
 
 echo "New version created. Now you should run:"
