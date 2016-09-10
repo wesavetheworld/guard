@@ -8,9 +8,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class Update extends BaseCommand
 {
-    const VERSION_URL = 'https://avramovic.github.io/guard/guard.version';
+    const VERSION_URL = 'http://avramovic.github.io/guard/guard.version';
 
-    const PHAR_URL = 'https://avramovic.github.io/guard/guard.phar';
+    const PHAR_URL = 'http://avramovic.github.io/guard/guard.phar';
 
     const FILE_NAME = 'guard.phar';
 
