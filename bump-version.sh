@@ -2,9 +2,6 @@
 
 set -e
 
-
-
-
 # CHECK MASTER BRANCH
 CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 if [[ "$CURRENT_BRANCH" != "master" ]]; then
@@ -27,7 +24,7 @@ box build
 git checkout gh-pages
 
 # CALCULATE SHA1 SUM
-sha1sum guard.phar guard.version
+sha1sum guard.phar > guard.version
 
 # READ SHA1 FOR DISPLAY
 SHA1=`cat guard.version`
