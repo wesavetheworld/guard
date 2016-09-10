@@ -238,9 +238,9 @@ Remove blocked event to occur with number 3:
 
     php guard.phar event:remove 3
 
-Remove all blocked events:
+Remove all blocked events without asking for confirmation:
 
-    php guard.phar event:remove all
+    php guard.phar event:remove all --silent
 
 ## Email commands
 
