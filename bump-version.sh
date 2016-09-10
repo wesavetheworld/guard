@@ -2,6 +2,11 @@
 
 set -e
 
+if [ $# -ne 1 ]; then
+  echo "Usage: `basename $0` <tag>"
+  exit 65
+fi
+
 TAG=$1
 
 # CHECK MASTER BRANCH
