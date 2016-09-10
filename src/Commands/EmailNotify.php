@@ -47,6 +47,10 @@ class EmailNotify extends BaseCommand
             $site  = $this->guardFile->findSiteByName($name);
             $email = $site->getEmail();
 
+            if (empty($files)) {
+                continue;
+            }
+
             if (empty($email)) {
                 $email = $this->guardFile->getEmail('address');
             }

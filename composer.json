@@ -13,7 +13,7 @@
         "symfony/filesystem": "^3.1",
         "swiftmailer/swiftmailer": "^5.4",
         "sebastian/diff": "^1.4",
-        "herrera-io/phar-update": "^2.0"
+        "padraic/phar-updater": "^1.0"
     },
     "autoload": {
         "psr-4": {

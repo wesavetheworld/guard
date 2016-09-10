@@ -8,7 +8,7 @@
     "directories": ["."],
     "extract": true,
     "files": [
-        "vendor/herrera-io/phar-update/res/schema.json"
+
     ],
     "finder": [
         {
