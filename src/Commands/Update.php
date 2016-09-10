@@ -31,19 +31,11 @@ class Update extends BaseCommand
             ->setDescription('Update guard to latest version')
             ->setDefinition(
                 new InputDefinition([
-                    new InputOption('rollback', InputOption::VALUE_NONE, 'Rollback to previous version'),
+                    new InputOption('rollback', 'R', InputOption::VALUE_NONE, 'Rollback to previous version'),
                 ])
             );
     }
 
-    /**
-     * Execute the command.
-     *
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     *
-     * @return int|null|void
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $updater = new Updater(null, false);
