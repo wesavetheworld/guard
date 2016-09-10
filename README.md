@@ -40,15 +40,15 @@ From now on, you should be able to call Guard with guard command only:
 
     guard --version
 
-If it works, you can substitute php guard.phar with guard in all following commands.
+If it works, you can substitute `php guard.phar` with `guard` in all following commands.
 
 # Quickstart
 
-Let's say your site *example.com* is located in /home/example/public_html and you want to protect it. First, let's add that path to the watch list:
+Let's say your site *example.com* is located in `/home/example/public_html` and you want to protect it. First, let's add that path to the watch list:
 
     php guard.phar site:add example.com --path=/home/example/public_html
 
-If it says *Site example.com added!* you're ready to go. 
+If it says *Site example.com added!* you're ready to go.
 
 > **Note**: By default, Guard is watching for changes only on the following file types: `*.php;*.htm*;*.js;*.css;*.sql`. You can use `--types=TYPES` to specify your own file types to watch. Use `*` to watch them all (NOT recommended)   
 
@@ -86,7 +86,7 @@ This command is used to add site to the watched list. All files from the supplie
       -x, --excludes=EXCLUDES  Paths to exclude (multiple values allowed)
 
 > **Note**: Name can be any valid folder name but to make everything easier you should always use your site domain name here.   
-> **Note**: You must restart (stop/start) Guard after using this command for the changes to take effect.
+> **Note**: You must restart Guard (stop/start) after using this command for the changes to take effect.
 
 #### Example(s)
 
@@ -122,7 +122,7 @@ List all guarded sites:
 
 This command is used to remove site from being protected.
 
-> **Note**: You must restart (stop/start) Guard after using this command for the changes to take effect.
+> **Note**: You must restart Guard (stop/start) after using this command for the changes to take effect.
 
 #### Example(s)
 
@@ -168,7 +168,7 @@ These commands are used to work with your sites' excludes.
 
 Add folder to site excludes.
 
-> **Note**: You must restart (stop/start) Guard after using this command for the changes to take effect.
+> **Note**: You must restart Guard (stop/start) after using this command for the changes to take effect.
 
 #### Example(s)
 
@@ -180,7 +180,7 @@ Add folder to site excludes:
 
 Remove folder from site excludes.
 
-> **Note**: You must restart (stop/start) Guard after using this command for the changes to take effect.
+> **Note**: You must restart Guard (stop/start) after using this command for the changes to take effect.
 
 #### Example(s)
 
@@ -250,7 +250,7 @@ One neat feature of Guard is to send you email notifications when events are blo
 * sendmail - Use sendmail to send emails. You'll need to have sendmail installed on your server.
 * smtp - Use SMTP server to send emails. It supports no encryption, ssl and tls encryption. This is preferred transport.
 
-You should set up a cron job to call email:notify at regular intervals to notify you about new changes on site files. See examples below.
+You should set up a cron job to call `email:notify` at regular intervals to notify you about new changes on site files. See examples below.
 
 ### email:show
 
@@ -273,7 +273,7 @@ Set email configuration variable.
        variable              Variable name to set (can be: recipient, transport, sendmail, smtp_host, smtp_port, smtp_user, smtp_pass or smtp_encrypt)
        value                 Variable value to set
 
-> **Note**: You must restart (stop/start) Guard after using this command for the changes to take effect.
+> **Note**: You must restart Guard (stop/start) after using this command for the changes to take effect.
 
 #### Example(s)
 
