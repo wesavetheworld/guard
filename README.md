@@ -17,11 +17,11 @@ Installation is very easy, you can choose to have it installed via `curl` or `wg
 
 For cURL, type this into your command line:
 
-    curl -LSs http://avramovic.github.io/guard/downloads/installer.php | php
+    curl -LSs http://avramovic.github.io/guard/installer | php
 
 Alternatively, you can try with wget:
 
-    wget -q -O - "$@" http://avramovic.github.io/guard/downloads/installer.php | php
+    wget -q -O - "$@" http://avramovic.github.io/guard/installer | php
 
 The installer will check your PHP configuration and will let you know if everything is okay. Once done, you can check installed version with:
 
