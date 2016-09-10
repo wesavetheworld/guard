@@ -13,7 +13,7 @@ If you don't have inotify-tools installed the app will fail miserably. Make sure
 
 # Installation
 
-Installation is very easy, you can choose to have it installed via curl or wget.
+Installation is very easy, you can choose to have it installed via `curl` or `wget`.
 
 For cURL, type this into your command line:
 
@@ -50,7 +50,7 @@ Let's say your site *example.com* is located in /home/example/public_html and yo
 
 If it says *Site example.com added!* you're ready to go. 
 
-> **Note**: By default, Guard is watching for changes only on the following file types: *.php;*.htm*;*.js;*.css;*.sql. You can use --types=TYPES to specify your own file types to watch. Use * to watch them all (NOT recommended)   
+> **Note**: By default, Guard is watching for changes only on the following file types: `*.php;*.htm*;*.js;*.css;*.sql`. You can use `--types=TYPES` to specify your own file types to watch. Use `*` to watch them all (NOT recommended)   
 
 Now, start the watcher and that's it:
 
@@ -62,8 +62,8 @@ Now, start the watcher and that's it:
 
 Guard offers variety of commands to make your life easier. Let's review them all!
 
-> **Note**: To see all available commands, use php guard.phar   
-> **Note**: To get help about individual command, use php guard.phar help COMMAND
+> **Note**: To see all available commands, use `php guard.phar`   
+> **Note**: To get help about individual command, `use php guard.phar help COMMAND`
 
 ## Site commands
 
