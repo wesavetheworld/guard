@@ -194,6 +194,7 @@ class Start extends BaseCommand
             if ($event->getType() != $type) {
                 $event->setAttempts(0);
                 $event->setType($type);
+                $event->setStatus(FileEvent::BLOCKED);
             }
 
             $event->increaseAttemptsCounter();
