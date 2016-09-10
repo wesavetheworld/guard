@@ -47,7 +47,6 @@ class Update extends BaseCommand
         if ($input->getOption('rollback')) {
             $updater->rollback();
             $output->writeln('Rolled back to previous version.');
-            $this->call('list', ['--version']);
             exit(0);
         }
 
@@ -58,7 +57,6 @@ class Update extends BaseCommand
             } else {
                 $output->writeln('No update needed!');
             }
-            $this->call('list', ['--version']);
         } catch (\Exception $e) {
             $this->error($e->getMessage());
         }
