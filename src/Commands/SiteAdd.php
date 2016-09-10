@@ -13,14 +13,14 @@ class SiteAdd extends BaseCommand
     {
         $this
             ->setName('site:add')
-            ->setDescription('Add site to guard list.')
+            ->setDescription('Add site to the guard list')
             ->setDefinition(
                 new InputDefinition([
                     new InputArgument('name', InputArgument::REQUIRED, 'Name of the site. Usually the domain name'),
-                    new InputOption('path', 'P', InputOption::VALUE_REQUIRED, 'Path to guard', '.'),
-                    new InputOption('types', 'T', InputOption::VALUE_REQUIRED, 'File extensions to protect', '*.php;*.htm*;*.js;*.css;*.sql'),
-                    new InputOption('email', 'E', InputOption::VALUE_REQUIRED, 'E-mail', null),
-                    new InputOption('excludes', 'X', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Paths to exclude', []),
+                    new InputOption('path', 'p', InputOption::VALUE_REQUIRED, 'Path to guard', '.'),
+                    new InputOption('types', 't', InputOption::VALUE_REQUIRED, 'File extensions to protect', '*.php;*.htm*;*.js;*.css;*.sql'),
+                    new InputOption('email', 'e', InputOption::VALUE_REQUIRED, 'E-mail', null),
+                    new InputOption('excludes', 'x', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Paths to exclude', []),
                 ])
             );
     }

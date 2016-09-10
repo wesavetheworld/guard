@@ -12,7 +12,7 @@ class SiteRemove extends BaseCommand
     {
         $this
             ->setName('site:remove')
-            ->setDescription('Remove site from guarded list')
+            ->setDescription('Remove site from the guard list')
             ->setDefinition(
                 new InputDefinition([
                     new InputArgument('name', InputArgument::REQUIRED, 'Name of the site to delete'),
@@ -28,7 +28,7 @@ class SiteRemove extends BaseCommand
 
         $site = $this->guardFile->findSiteByName($name);
         if ($site === null) {
-            $this->error("Site with name {$name} is not found. Use: guard site:list");
+            $this->error("Site with name {$name} is not found. Use: php guard.phar site:list");
         }
 
         $output->writeln("Are you sure you want to stop guarding site {$name}?");

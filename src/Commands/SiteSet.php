@@ -32,7 +32,7 @@ class SiteSet extends BaseCommand
 
         $site = $this->guardFile->findSiteByName($name);
         if ($site == null) {
-            $this->error("Site with name {$name} was not found. Use: guard site:list");
+            $this->error("Site with name {$name} was not found. Use: php guard.phar site:list");
         }
 
         $siteIndex = $this->guardFile->findSiteIndexByName($name);
@@ -44,12 +44,20 @@ class SiteSet extends BaseCommand
 
         switch ($variable) {
             case 'name':
-                $this->fileSystem->remove($site->backupPath());
+                $oldBackup     = $site->backupPath();
+                $oldQuarantine = $site->quarantinePath();
                 $site->setName($value[0]);
-                $this->fileSystem->mirror($site->getPath(), $site->backupPath());
+                $this->fileSystem->rename($oldBackup, $site->backupPath());
+                $this->fileSystem->rename($oldQuarantine, $site->quarantinePath());
                 break;
             case 'path':
+                $oldBackup     = $site->backupPath();
+                $oldQuarantine = $site->quarantinePath();
                 $site->setPath($value[0]);
+                $this->fileSystem->remove($oldBackup);
+                $this->fileSystem->remove($oldQuarantine);
+                $output->writeln("Making new backup, this may take a while...");
+                $this->fileSystem->mirror($site->getPath(), $site->backupPath());
                 break;
             case 'types':
                 $site->setTypes($value[0]);

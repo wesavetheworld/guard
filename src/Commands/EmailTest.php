@@ -30,7 +30,7 @@ class EmailTest extends BaseCommand
         }
 
         if (empty($email)) {
-            $this->error("No recipient email address defined. Use: guard email:set address [email-address]");
+            $this->error("No recipient email address defined. Use: php guard.phar email:set address [email-address]");
         }
 
         if (filter_var($email, FILTER_VALIDATE_EMAIL) != $email) {

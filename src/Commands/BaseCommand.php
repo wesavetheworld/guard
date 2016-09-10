@@ -80,7 +80,7 @@ abstract class BaseCommand extends Command
         return $helper->ask($this->inputInterface, $this->outputInterface, $question);
     }
 
-    public function call($command, $arguments)
+    public function call($command, $arguments=[])
     {
         $cmd = $this->getApplication()->find($command);
 

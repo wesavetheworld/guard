@@ -16,16 +16,13 @@ class Stop extends BaseCommand
     {
         parent::execute($input, $output);
 
-        $pidFile = GUARD_USER_FOLDER.DIRECTORY_SEPARATOR.'.pidfile';
-
-        if (!is_file($pidFile)) {
-            $output->writeln("Guard is NOT running!");
-            exit(0);
+        if (!guard_running()) {
+            $this->error("Guard is NOT running!");
         }
 
-        $pid = trim(file_get_contents($pidFile));
-        system('kill -9 '.$pid);
-        unlink($pidFile);
+        $pids = guard_get_pids();
+        system('kill -9 '.$pids);
+        unlink(guard_pidfile());
 
         $output->writeln("Guard should be stopped now.");
     }

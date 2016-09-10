@@ -91,10 +91,10 @@ HTML;
 
         $ip = gethostbyname($site->getName());
         if ($ip == $site->getName()) {
-            return 'guard@avramovic.github.io';
+            return $this->guardFile->getEmail('address');
         }
 
-        return 'guard@'.$site->getName();
+        return 'guard-notifications@'.$site->getName();
     }
 
     public function sendTestEmail($to, $from = null)
@@ -103,7 +103,7 @@ HTML;
             ->setFrom($from ? $from : $to)
             ->setTo($to);
 
-        $this->addBody($message, '<p>If you are reading this then Guard is working and can send emails from your server!</p><p>Please do NOT reply to this e-mail!</p>');
+        $this->addBody($message, '<p>If you are reading this then Guard is working and can send emails from your server!</p>');
 
         return $this->mailer->send($message);
     }

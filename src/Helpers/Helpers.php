@@ -17,3 +17,18 @@ function fnmmatch($pattern, $string, $flags = null)
 
     return false;
 }
+
+function guard_running()
+{
+    return is_file(guard_pidfile());
+}
+
+function guard_get_pids()
+{
+    return file_get_contents(guard_pidfile());
+}
+
+function guard_pidfile()
+{
+    return GUARD_USER_FOLDER.DIRECTORY_SEPARATOR.'.pidfile';
+}

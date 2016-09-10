@@ -25,7 +25,7 @@ class EventList extends BaseCommand
             exit(0);
         }
 
-        $header    = ['ID', 'Site', 'Path', 'Type', 'Attempts', 'First Attempt', 'Last attempt'];
+        $header    = ['Nr', 'Site', 'Path', 'Type', 'Attempts', 'First Attempt', 'Last attempt'];
         $tableRows = [];
         $id        = 0;
 

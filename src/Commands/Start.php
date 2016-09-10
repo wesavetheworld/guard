@@ -20,13 +20,17 @@ class Start extends BaseCommand
     {
         parent::execute($input, $output);
 
+        if (guard_running()) {
+            $this->error("Guard is already running!");
+        }
+
         $sites = $this->guardFile->getSites();
         if (count($sites) < 1) {
-            $this->error("No sites configured to watch! Use: guard site:add");
+            $this->error("No sites configured to watch! Use: php guard.phar site:add");
         }
 
         $output->writeln("Setting up watches for all configured sites. This may take a while...");
-        $output->writeln("To stop watching use: guard stop");
+        $output->writeln("To stop watching use: php guard.phar stop");
 
         $watchFile = $this->guardFile->watchFile()->getPathname();
 

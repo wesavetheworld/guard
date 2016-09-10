@@ -20,8 +20,8 @@ class EventAllow extends BaseCommand
             ->setDescription('Allow blocked event(s)')
             ->setDefinition(
                 new InputDefinition([
-                    new InputArgument('id', InputArgument::REQUIRED | InputArgument::IS_ARRAY, 'ID of the event to allow'),
-                    new InputOption('silent', 'S', InputOption::VALUE_NONE, 'Do not ask any questions'),
+                    new InputArgument('nr', InputArgument::REQUIRED | InputArgument::IS_ARRAY, 'Number of the event to allow'),
+                    new InputOption('silent', 's', InputOption::VALUE_NONE, 'Do not ask any questions'),
                 ])
             );
     }
@@ -30,7 +30,7 @@ class EventAllow extends BaseCommand
     {
         parent::execute($input, $output);
 
-        $ids    = $input->getArgument('id');
+        $ids    = $input->getArgument('nr');
         $silent = $input->getOption('silent');
         $events = $this->eventsFile->getEvents();
 
@@ -40,7 +40,7 @@ class EventAllow extends BaseCommand
 
         foreach ($ids as $id) {
             if (!isset($events[$id - 1])) {
-                $this->error("Event with ID #{$id} does not exist!");
+                $this->error("Event #{$id} does not exist!");
             }
 
             /** @var FileEvent $event */

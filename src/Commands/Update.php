@@ -31,7 +31,7 @@ class Update extends BaseCommand
             ->setDescription('Update guard to latest version')
             ->setDefinition(
                 new InputDefinition([
-                    new InputOption('rollback', 'R', InputOption::VALUE_NONE, 'Rollback to previous version'),
+                    new InputOption('rollback', 'r', InputOption::VALUE_NONE, 'Rollback to previous version'),
                 ])
             );
     }

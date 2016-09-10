@@ -16,6 +16,9 @@ $commands = [
     Avram\Guard\Commands\SiteRemove::class,
     Avram\Guard\Commands\SiteBackup::class,
 
+    Avram\Guard\Commands\ExcludeAdd::class,
+    Avram\Guard\Commands\ExcludeRemove::class,
+
     Avram\Guard\Commands\EmailSet::class,
     Avram\Guard\Commands\EmailShow::class,
     Avram\Guard\Commands\EmailTest::class,
@@ -23,6 +26,7 @@ $commands = [
 
     Avram\Guard\Commands\Start::class,
     Avram\Guard\Commands\Stop::class,
+    Avram\Guard\Commands\Status::class,
     Avram\Guard\Commands\Update::class,
 
     Avram\Guard\Commands\EventList::class,

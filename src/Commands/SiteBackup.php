@@ -28,7 +28,7 @@ class SiteBackup extends BaseCommand
         $site = $this->guardFile->findSiteByName($name);
 
         if ($site === null) {
-            $this->error("Site with name {$name} is not found. Use: guard site:list");
+            $this->error("Site with name {$name} is not found. Use: php guard.phar site:list");
         }
 
         $path       = $site->getPath();
