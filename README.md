@@ -73,20 +73,20 @@ These commands are used to work with your site(s).
 
 This command is used to add site to the watched list. All files from the supplied path will be backed up.
 
+    Usage:
+      site:add [options] [--] <name>
+    
+    Arguments:
+      name                     Name of the site. Usually the domain name
+    
+    Options:
+      -p, --path=PATH          Path to guard [default: "."]
+      -t, --types=TYPES        File extensions to protect [default: "*.php;*.htm*;*.js;*.css;*.sql"]
+      -e, --email=EMAIL        E-mail
+      -x, --excludes=EXCLUDES  Paths to exclude (multiple values allowed)
+
 > **Note**: Name can be any valid folder name but to make everything easier you should always use your site domain name here.   
 > **Note**: You must restart (`stop/start`) Guard after using this command for the changes to take effect.
-
-`Usage:
-  site:add [options] [--] <name>
-
-Arguments:
-  name                     Name of the site. Usually the domain name
-
-Options:
-  -p, --path=PATH          Path to guard [default: "."]
-  -t, --types=TYPES        File extensions to protect [default: "*.php;*.htm*;*.js;*.css;*.sql"]
-  -e, --email=EMAIL        E-mail
-  -x, --excludes=EXCLUDES  Paths to exclude (multiple values allowed)`
 
 #### Example(s)
 
@@ -134,15 +134,15 @@ Remove site *example.com* from being protected:
 
 This command is used to set individual options for one site.
 
-`Usage:
-   site:set <name> <variable> <value> (<value>)...
-
- Arguments:
-   name                  Site name
-   variable              Variable name to set (can be: name, path, email, types or excludes)
-   value                 Variable value (or values for excludes, separated with space) to set`
-
-> **Note**: You must restart (`stop/start`) Guard after using this command for the changes to take effect.
+    Usage:
+       site:set <name> <variable> <value> (<value>)...
+    
+     Arguments:
+       name                  Site name
+       variable              Variable name to set (can be: name, path, email, types or excludes)
+       value                 Variable value (or values for excludes, separated with space) to set`
+    
+> **Note**: You must restart Guard (`stop/start`) after using this command for the changes to take effect.
 
 #### Example(s)
 
@@ -266,12 +266,12 @@ Show current email configuration:
 
 Set email configuration variable.
 
-`Usage:
-   email:set <variable> <value> (<value>)...
-
- Arguments:
-   variable              Variable name to set (can be: recipient, transport, sendmail, smtp_host, smtp_port, smtp_user or smtp_pass)
-   value                 Variable value to set`
+    Usage:
+       email:set <variable> <value> (<value>)...
+    
+     Arguments:
+       variable              Variable name to set (can be: recipient, transport, sendmail, smtp_host, smtp_port, smtp_user or smtp_pass)
+       value                 Variable value to set
 
 > **Note**: You must restart (`stop/start`) Guard after using this command for the changes to take effect.
 
