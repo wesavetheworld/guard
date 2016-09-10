@@ -38,6 +38,8 @@ class Update extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        parent::execute($input, $output);
+        
         $updater = new Updater(null, false);
         $updater->getStrategy()->setPharUrl(self::PHAR_URL);
         $updater->getStrategy()->setVersionUrl(self::VERSION_URL);
