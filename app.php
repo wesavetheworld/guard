@@ -42,7 +42,7 @@ if (!$appFolder->isDir()) {
 define('GUARD_USER_FOLDER', $appFolder->getPathname());
 
 // bootstrap the application
-$application = new Application('PHP Guard', '@git-version@');
+$application = new Application('Guard', '@git-version@');
 foreach ($commands as $command) {
     $application->add(new $command);
 }

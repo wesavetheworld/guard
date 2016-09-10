@@ -60,7 +60,7 @@ class Mailer
     <div style="padding: 30px 30px 10px; margin: 30px; background-color: white; border-radius: 5px; box-shadow: 0 1px 5px 0px #ccc;">
         <div>
             <div style="text-align: center">
-                <h3>PHP Guard service</h3>
+                <h3>Guard service</h3>
             </div>
             <div>
                 {$body}
@@ -110,7 +110,7 @@ HTML;
 
     public function sendNotificationEmail($email, Site $site, array $files)
     {
-        $message = \Swift_Message::newInstance("PHP Guard file tampering notification")
+        $message = \Swift_Message::newInstance("Guard file tampering notification")
             ->setFrom($this->getFromAddress($site))
             ->setTo($email);
 
