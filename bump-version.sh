@@ -44,5 +44,3 @@ git checkout master
 
 echo "New version created. Now you should run:"
 echo "git push origin gh-pages"
-echo "git push --force --tags"
-
