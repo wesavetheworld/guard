@@ -22,8 +22,6 @@ class EmailNotify extends BaseCommand
         $events = $this->eventsFile->getEvents();
         $sites  = [];
 
-//        echo json_encode($events, JSON_PRETTY_PRINT);
-
         if (empty($events)) {
             $output->writeln("No events to notify about!");
             exit(0);
@@ -37,8 +35,9 @@ class EmailNotify extends BaseCommand
                 $sites[$name] = [];
             }
 
-//            if ($event->getStatus() != FileEvent::NOTIFIED)
-            $sites[$name][$event->getPath()] = $event->getType();
+            if ($event->getStatus() != FileEvent::NOTIFIED) {
+                $sites[$name][$event->getPath()] = $event->getType();
+            }
         }
 
 
@@ -65,12 +64,22 @@ class EmailNotify extends BaseCommand
             $sent = $this->mailer->sendNotificationEmail($email, $site, $files);
             if ($sent) {
                 $output->writeln("OK");
+                $this->markAsNotified($files);
             } else {
                 $output->writeln("FAILED");
             }
         }
 
-//        echo json_encode($sites, JSON_PRETTY_PRINT);
+    }
+
+    private function markAsNotified(array $files)
+    {
+        foreach ($files as $file => $ev) {
+            $event = $this->eventsFile->getFileEventByPath($file);
+            $event->setStatus(FileEvent::NOTIFIED);
+            $this->eventsFile->updateFileEvent($event);
+        }
+        $this->eventsFile->dump();
     }
 
 }

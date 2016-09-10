@@ -2,6 +2,8 @@
 
 set -e
 
+TAG=$1
+
 # CHECK MASTER BRANCH
 CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 if [[ "$CURRENT_BRANCH" != "master" ]]; then
@@ -18,6 +20,7 @@ git checkout --quiet master
 
 # BACK TO MASTER AND BUILD
 git checkout master
+git tag {$TAG}
 box build
 
 # NOW UPDATE WEBSITE
@@ -35,10 +38,11 @@ SHA1=`cat downloads/guard.version`
 # ADD FILES TO GIT
 git add downloads/guard.phar
 git add downloads/guard.version
-git commit -m "Bump version ${SHA1}"
+git commit -m "Bump version ${TAG}"
 
 # GO BACK TO MASTER
 git checkout master
 
 echo "New version created. Now you should run:"
 echo "git push origin gh-pages"
+echo "git push --force --tags"
