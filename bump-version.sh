@@ -2,10 +2,7 @@
 
 set -e
 
-if [ $# -ne 1 ]; then
-  echo "Usage: `basename $0` <tag>"
-  exit 65
-fi
+
 
 
 # CHECK MASTER BRANCH
@@ -15,10 +12,6 @@ if [[ "$CURRENT_BRANCH" != "master" ]]; then
   exit 65
 fi
 
-# CHECK FORMAT OF THE TAG 
-php -r "if(preg_match('/^\d+\.\d+\.\d+(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?\$/',\$argv[1])) exit(0) ;else{ echo 'format of version tag is not invalid' . PHP_EOL ; exit(1);}" $1
-
-
 # CHECK box COMMAND
 command -v box >/dev/null 2>&1 || { echo "Error : Command box is not installed on the system"; echo "See : https://github.com/box-project/box2 "; echo  "Exiting..." >&2; exit 65; }
 
@@ -26,28 +19,23 @@ command -v box >/dev/null 2>&1 || { echo "Error : Command box is not installed o
 git checkout gh-pages
 git checkout --quiet master
 
-
-TAG=$1
-
-
-#
-# Tag & build master branch
-#
+# BACK TO MASTER AND BUILD
 git checkout master
 box build
 
-#
-# Copy executable file into GH pages
-#
+# NOW UPDATE WEBSITE
 git checkout gh-pages
 
+# MOVE PHAR TO DOWNLOADS FOLDER
 mv guard.phar downloads/guard.phar
-git add downloads/guard.phar
 
+# CALCULATE SHA1 SUM
 sha1sum downloads/guard.phar downloads/guard.version
 
+# READ SHA1 FOR DISPLAY
 SHA1=`cat downloads/guard.version`
 
+# ADD FILES TO GIT
 git add downloads/guard.phar
 git add downloads/guard.version
 git commit -m "Bump version ${SHA1}"
