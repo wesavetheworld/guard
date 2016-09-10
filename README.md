@@ -82,7 +82,7 @@ This command is used to add site to the watched list. All files from the supplie
     Options:
       -p, --path=PATH          Path to guard [default: "."]
       -t, --types=TYPES        File extensions to protect [default: "*.php;*.htm*;*.js;*.css;*.sql"]
-      -e, --email=EMAIL        E-mail
+      -e, --email=EMAIL        Email address for notifications
       -x, --excludes=EXCLUDES  Paths to exclude (multiple values allowed)
 
 > **Note**: Name can be any valid folder name but to make everything easier you should always use your site domain name here.   
