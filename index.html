@@ -48,57 +48,64 @@
 <h1>
 <a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h1>
 
-<p>Installation is very easy, you can choose to have it installed via <code>curl</code> or <code>wget</code>.</p>
+<p>Installation is very easy, you can choose to have it installed via curl or wget.</p>
 
 <p>For cURL, type this into your command line:</p>
 
-<p><code>curl -LSs http://avramovic.github.io/guard/downloads/installer.php | php</code></p>
+<pre><code>curl -LSs http://avramovic.github.io/guard/downloads/installer.php | php
+</code></pre>
 
 <p>Alternatively, you can try with wget:</p>
 
-<p><code>wget -q -O - "$@" http://avramovic.github.io/guard/downloads/installer.php | php</code></p>
+<pre><code>wget -q -O - "$@" http://avramovic.github.io/guard/downloads/installer.php | php
+</code></pre>
 
 <p>The installer will check your PHP configuration and will let you know if everything is okay. Once done, you can check installed version with:</p>
 
-<p><code>php guard.phar --version</code></p>
+<pre><code>php guard.phar --version
+</code></pre>
 
 <h2>
 <a id="global-installation" class="anchor" href="#global-installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Global installation</h2>
 
 <p>To install Guard globally, simply move it to any folder which is in your PATH:</p>
 
-<p><code>mv guard.phar /usr/local/bin/guard</code></p>
+<pre><code>mv guard.phar /usr/local/bin/guard
+</code></pre>
 
 <blockquote>
-<p><strong>Note</strong>: If the above fails due to permissions, you may need to run it again with sudo. (<code>sudo !!</code>)<br>
+<p><strong>Note</strong>: If the above fails due to permissions, you may need to run it again with sudo. (sudo !!)<br>
 <strong>Note</strong>: For information on changing your PATH, please read the <a href="https://en.wikipedia.org/wiki/PATH_(variable)">Wikipedia article</a> and/or use Google.</p>
 </blockquote>
 
-<p>From now on, you should be able to call Guard with <code>guard</code> command only:</p>
+<p>From now on, you should be able to call Guard with guard command only:</p>
 
-<p><code>guard --version</code></p>
+<pre><code>guard --version
+</code></pre>
 
-<p>If it works, you can substitute <code>php guard.phar</code> with <code>guard</code> in all following commands.</p>
+<p>If it works, you can substitute php guard.phar with guard in all following commands.</p>
 
 <h1>
 <a id="quickstart" class="anchor" href="#quickstart" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Quickstart</h1>
 
-<p>Let's say your site <em>example.com</em> is located in <code>/home/example/public_html</code> and you want to protect it. First, let's add that path to the watch list:</p>
+<p>Let's say your site <em>example.com</em> is located in /home/example/public_html and you want to protect it. First, let's add that path to the watch list:</p>
 
-<p><code>php guard.phar site:add example.com --path=/home/example/public_html</code></p>
+<pre><code>php guard.phar site:add example.com --path=/home/example/public_html
+</code></pre>
 
 <p>If it says <em>Site example.com added!</em> you're ready to go. </p>
 
 <blockquote>
-<p><strong>Note</strong>: By default, Guard is watching for changes only on the following file types: <code>*.php;*.htm*;*.js;*.css;*.sql</code>. You can use <code>--types=TYPES</code> to specify your own file types to watch. Use <code>*</code> to watch them all (NOT recommended)   </p>
+<p><strong>Note</strong>: By default, Guard is watching for changes only on the following file types: <em>.php;</em>.htm<em>;</em>.js;<em>.css;</em>.sql. You can use --types=TYPES to specify your own file types to watch. Use * to watch them all (NOT recommended)   </p>
 </blockquote>
 
 <p>Now, start the watcher and that's it:</p>
 
-<p><code>php guard.phar start &amp;</code></p>
+<pre><code>php guard.phar start &amp;
+</code></pre>
 
 <blockquote>
-<p><strong>Note</strong>: Because <code>start</code> is a continious (never-ending) command, we're adding <code>&amp;</code> at the end to run it in the background.</p>
+<p><strong>Note</strong>: Because start is a continious (never-ending) command, we're adding &amp; at the end to run it in the background.</p>
 </blockquote>
 
 <h1>
@@ -107,8 +114,8 @@
 <p>Guard offers variety of commands to make your life easier. Let's review them all!</p>
 
 <blockquote>
-<p><strong>Note</strong>: To see all available commands, use <code>php guard.phar</code><br>
-<strong>Note</strong>: To get help about individual command, use <code>php guard.phar help COMMAND</code></p>
+<p><strong>Note</strong>: To see all available commands, use php guard.phar<br>
+<strong>Note</strong>: To get help about individual command, use php guard.phar help COMMAND</p>
 </blockquote>
 
 <h2>
@@ -136,7 +143,7 @@ Options:
 
 <blockquote>
 <p><strong>Note</strong>: Name can be any valid folder name but to make everything easier you should always use your site domain name here.<br>
-<strong>Note</strong>: You must restart (<code>stop/start</code>) Guard after using this command for the changes to take effect.</p>
+<strong>Note</strong>: You must restart (stop/start) Guard after using this command for the changes to take effect.</p>
 </blockquote>
 
 <h4>
@@ -144,11 +151,13 @@ Options:
 
 <p>Protect only html files in the current directory:</p>
 
-<p><code>php guard.phar site:add example.com --types=*.html</code></p>
+<pre><code>php guard.phar site:add example.com --types=*.html
+</code></pre>
 
 <p>Protect default files in the custom directory and set e-mail for notifications:</p>
 
-<p><code>php guard.phar site:add example.com --path=/home/example/public_html --email=you@example.com</code></p>
+<pre><code>php guard.phar site:add example.com --path=/home/example/public_html --email=you@example.com
+</code></pre>
 
 <h3>
 <a id="sitebackup" class="anchor" href="#sitebackup" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>site:backup</h3>
@@ -160,7 +169,8 @@ Options:
 
 <p>Refresh backup of the site <em>example.com</em>:</p>
 
-<p><code>php guard.phar site:backup example.com</code></p>
+<pre><code>php guard.phar site:backup example.com
+</code></pre>
 
 <h3>
 <a id="sitelist" class="anchor" href="#sitelist" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>site:list</h3>
@@ -172,7 +182,8 @@ Options:
 
 <p>List all guarded sites:</p>
 
-<p><code>php guard.phar site:list</code></p>
+<pre><code>php guard.phar site:list
+</code></pre>
 
 <h3>
 <a id="siteremove" class="anchor" href="#siteremove" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>site:remove</h3>
@@ -180,7 +191,7 @@ Options:
 <p>This command is used to remove site from being protected.</p>
 
 <blockquote>
-<p><strong>Note</strong>: You must restart (<code>stop/start</code>) Guard after using this command for the changes to take effect.</p>
+<p><strong>Note</strong>: You must restart (stop/start) Guard after using this command for the changes to take effect.</p>
 </blockquote>
 
 <h4>
@@ -188,7 +199,8 @@ Options:
 
 <p>Remove site <em>example.com</em> from being protected:</p>
 
-<p><code>php guard.phar site:remove example.com</code></p>
+<pre><code>php guard.phar site:remove example.com
+</code></pre>
 
 <h3>
 <a id="siteset" class="anchor" href="#siteset" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>site:set</h3>
@@ -201,11 +213,11 @@ Options:
  Arguments:
    name                  Site name
    variable              Variable name to set (can be: name, path, email, types or excludes)
-   value                 Variable value (or values for excludes, separated with space) to set`
+   value                 Variable value (or values for excludes, separated with space) to set
 </code></pre>
 
 <blockquote>
-<p><strong>Note</strong>: You must restart Guard (<code>stop/start</code>) after using this command for the changes to take effect.</p>
+<p><strong>Note</strong>: You must restart Guard (stop/start) after using this command for the changes to take effect.</p>
 </blockquote>
 
 <h4>
@@ -213,15 +225,18 @@ Options:
 
 <p>Change name of the site:</p>
 
-<p><code>php guard.phar site:set example.com name othername.org</code></p>
+<pre><code>php guard.phar site:set example.com name othername.org
+</code></pre>
 
 <p>Set/change email for notifications about this site:</p>
 
-<p><code>php guard.phar site:set example.com email you@othername.org</code></p>
+<pre><code>php guard.phar site:set example.com email you@othername.org
+</code></pre>
 
 <p>Set new excludes for the site (removing old excludes):</p>
 
-<p><code>php guard.phar site:set example.com excludes /home/example/public_html/excluded ./public_html/uploads</code></p>
+<pre><code>php guard.phar site:set example.com excludes /home/example/public_html/excluded ./public_html/uploads
+</code></pre>
 
 <blockquote>
 <p><strong>Note</strong>: Setting excludes using this method will <strong>remove</strong> existing excludes. See below for alternatives.</p>
@@ -238,7 +253,7 @@ Options:
 <p>Add folder to site excludes.</p>
 
 <blockquote>
-<p><strong>Note</strong>: You must restart (<code>stop/start</code>) Guard after using this command for the changes to take effect.</p>
+<p><strong>Note</strong>: You must restart (stop/start) Guard after using this command for the changes to take effect.</p>
 </blockquote>
 
 <h4>
@@ -246,7 +261,8 @@ Options:
 
 <p>Add folder to site excludes:</p>
 
-<p><code>php guard.phar exclude:add example.com /path/to/excluded/folder</code></p>
+<pre><code>php guard.phar exclude:add example.com /path/to/excluded/folder
+</code></pre>
 
 <h3>
 <a id="excluderemove" class="anchor" href="#excluderemove" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>exclude:remove</h3>
@@ -254,7 +270,7 @@ Options:
 <p>Remove folder to site excludes.</p>
 
 <blockquote>
-<p><strong>Note</strong>: You must restart (<code>stop/start</code>) Guard after using this command for the changes to take effect.</p>
+<p><strong>Note</strong>: You must restart (stop/start) Guard after using this command for the changes to take effect.</p>
 </blockquote>
 
 <h4>
@@ -262,7 +278,8 @@ Options:
 
 <p>Remove folder to site excludes.</p>
 
-<p><code>php guard.phar exclude:remove example.com /path/to/excluded/folder</code></p>
+<pre><code>php guard.phar exclude:remove example.com /path/to/excluded/folder
+</code></pre>
 
 <h2>
 <a id="event-commands" class="anchor" href="#event-commands" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Event commands</h2>
@@ -279,7 +296,8 @@ Options:
 
 <p>Remove folder to site excludes:</p>
 
-<p><code>php guard.phar event:list</code></p>
+<pre><code>php guard.phar event:list
+</code></pre>
 
 <h3>
 <a id="eventdiff" class="anchor" href="#eventdiff" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>event:diff</h3>
@@ -291,7 +309,8 @@ Options:
 
 <p>Show a diff between original file and the blocked action with number 2:</p>
 
-<p><code>php guard.phar event:diff 2</code></p>
+<pre><code>php guard.phar event:diff 2
+</code></pre>
 
 <h3>
 <a id="eventallow" class="anchor" href="#eventallow" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>event:allow</h3>
@@ -303,14 +322,16 @@ Options:
 
 <p>Allow blocked event to occur with number 2:</p>
 
-<p><code>php guard.phar event:allow 2</code></p>
+<pre><code>php guard.phar event:allow 2
+</code></pre>
 
 <p>Allow all blocked events to occur.</p>
 
-<p><code>php guard.phar event:allow all</code></p>
+<pre><code>php guard.phar event:allow all
+</code></pre>
 
 <blockquote>
-<p><strong>Note</strong>: Be very careful when allowing ALL events. Study all the events with <code>event:list</code> and remove suspicious events first!</p>
+<p><strong>Note</strong>: Be very careful when allowing ALL events. Study all the events with event:list and remove suspicious events first!</p>
 </blockquote>
 
 <h3>
@@ -323,11 +344,13 @@ Options:
 
 <p>Remove blocked event to occur with number 3:</p>
 
-<p><code>php guard.phar event:remove 3</code></p>
+<pre><code>php guard.phar event:remove 3
+</code></pre>
 
 <p>Remove all blocked events:</p>
 
-<p><code>php guard.phar event:remove all</code></p>
+<pre><code>php guard.phar event:remove all
+</code></pre>
 
 <h2>
 <a id="email-commands" class="anchor" href="#email-commands" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Email commands</h2>
@@ -336,11 +359,11 @@ Options:
 
 <ul>
 <li>mail - Use PHP's mail() function to send emails. This is the default transport.</li>
-<li>sendmail - Use sendmail to send emails. You'll need to have <code>sendmail</code> installed on your server.</li>
+<li>sendmail - Use sendmail to send emails. You'll need to have sendmail installed on your server.</li>
 <li>smtp - Use SMTP server to send emails. It supports no encryption, ssl and tls encryption. This is preferred transport.</li>
 </ul>
 
-<p>You should set up a cron job to call <code>email:notify</code> at regular intervals to notify you about new changes on site files. See examples below.</p>
+<p>You should set up a cron job to call email:notify at regular intervals to notify you about new changes on site files. See examples below.</p>
 
 <h3>
 <a id="emailshow" class="anchor" href="#emailshow" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>email:show</h3>
@@ -352,7 +375,8 @@ Options:
 
 <p>Show current email configuration:</p>
 
-<p><code>php guard.phar email:show</code></p>
+<pre><code>php guard.phar email:show
+</code></pre>
 
 <h3>
 <a id="emailset" class="anchor" href="#emailset" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>email:set</h3>
@@ -368,7 +392,7 @@ Options:
 </code></pre>
 
 <blockquote>
-<p><strong>Note</strong>: You must restart (<code>stop/start</code>) Guard after using this command for the changes to take effect.</p>
+<p><strong>Note</strong>: You must restart (stop/start) Guard after using this command for the changes to take effect.</p>
 </blockquote>
 
 <h4>
@@ -376,27 +400,32 @@ Options:
 
 <p>Change email transport to sendmail:</p>
 
-<p><code>php guard.phar email:set transport sendmail</code></p>
+<pre><code>php guard.phar email:set transport sendmail
+</code></pre>
 
 <p>Set sendmail command path:</p>
 
-<p><code>php guard.phar email:set sendmail /usr/bin/sendmail -bs</code></p>
+<pre><code>php guard.phar email:set sendmail "/usr/bin/sendmail -bs"
+</code></pre>
 
 <p>Set default recipient(s) for all e-mails:</p>
 
-<p><code>php guard.phar email:set address you@example.com someoneelse@gmail.com</code></p>
+<pre><code>php guard.phar email:set address you@example.com someoneelse@gmail.com
+</code></pre>
 
 <p>Change email transport to SMTP:</p>
 
-<p><code>php guard.phar email:set transport smtp</code></p>
+<pre><code>php guard.phar email:set transport smtp
+</code></pre>
 
 <p>Set up SMTP:</p>
 
-<p><code>php guard.phar email:set smtp_host mail.example.com
+<pre><code>php guard.phar email:set smtp_host mail.example.com
 php guard.phar email:set smtp_port 465
 php guard.phar email:set smtp_user example
 php guard.phar email:set smtp_pass your-password
-php guard.phar email:set smtp_encrypt tls</code></p>
+php guard.phar email:set smtp_encrypt tls
+</code></pre>
 
 <h3>
 <a id="emailtest" class="anchor" href="#emailtest" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>email:test</h3>
@@ -408,11 +437,13 @@ php guard.phar email:set smtp_encrypt tls</code></p>
 
 <p>Send a test email to the default recipient(s):</p>
 
-<p><code>php guard.phar email:test</code></p>
+<pre><code>php guard.phar email:test
+</code></pre>
 
 <p>Send a test email to the custom email address:</p>
 
-<p><code>php guard.phar email:test someoneelse@example.com</code></p>
+<pre><code>php guard.phar email:test someoneelse@example.com
+</code></pre>
 
 <h3>
 <a id="emailnotify" class="anchor" href="#emailnotify" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>email:notify</h3>
@@ -428,7 +459,8 @@ php guard.phar email:set smtp_encrypt tls</code></p>
 
 <p>Set up a cron job to send you email notifications every 5 minutes (if any new blocked events occur since last notification):</p>
 
-<p><code>*/5 * * * * php /full/path/to/guard.phar email:notify &gt;/dev/null 2&gt;&amp;1</code></p>
+<pre><code>*/5 * * * * php /full/path/to/guard.phar email:notify &gt;/dev/null 2&gt;&amp;1
+</code></pre>
 
 <h2>
 <a id="service-commands" class="anchor" href="#service-commands" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Service commands</h2>
@@ -440,32 +472,37 @@ php guard.phar email:set smtp_encrypt tls</code></p>
 
 <p>Shows if Guard is currently running:</p>
 
-<p><code>php guard.phar status</code></p>
+<pre><code>php guard.phar status
+</code></pre>
 
 <h3>
 <a id="start" class="anchor" href="#start" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>start</h3>
 
 <p>Start Guard if not running:</p>
 
-<p><code>php guard.phar start</code></p>
+<pre><code>php guard.phar start
+</code></pre>
 
 <h3>
 <a id="stop" class="anchor" href="#stop" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>stop</h3>
 
 <p>Stop Guard if running:</p>
 
-<p><code>php guard.phar stop</code></p>
+<pre><code>php guard.phar stop
+</code></pre>
 
 <h3>
 <a id="update" class="anchor" href="#update" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>update</h3>
 
 <p>Update Guard to the latest version:</p>
 
-<p><code>php guard.phar update</code></p>
+<pre><code>php guard.phar update
+</code></pre>
 
 <p>Rollback Guard to the previous version:</p>
 
-<p><code>php guard.phar update --rollback</code></p>
+<pre><code>php guard.phar update --rollback
+</code></pre>
 
 <blockquote>
 <p><strong>Note</strong>: If you have Guard installed globally, you may need to run this command with sudo!</p>
