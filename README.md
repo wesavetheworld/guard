@@ -270,7 +270,7 @@ Set email configuration variable.
        email:set <variable> <value> (<value>)...
     
      Arguments:
-       variable              Variable name to set (can be: recipient, transport, sendmail, smtp_host, smtp_port, smtp_user or smtp_pass)
+       variable              Variable name to set (can be: recipient, transport, sendmail, smtp_host, smtp_port, smtp_user, smtp_pass or smtp_encrypt)
        value                 Variable value to set
 
 > **Note**: You must restart (stop/start) Guard after using this command for the changes to take effect.

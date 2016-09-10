@@ -15,7 +15,7 @@ class EmailSet extends BaseCommand
             ->setDescription('Set email configuration')
             ->setDefinition(
                 new InputDefinition([
-                    new InputArgument('variable', InputArgument::REQUIRED, 'Variable name to set (can be: recipient, transport, sendmail, smtp_host, smtp_port, smtp_user or smtp_pass)'),
+                    new InputArgument('variable', InputArgument::REQUIRED, 'Variable name to set (can be: recipient, transport, sendmail, smtp_host, smtp_port, smtp_user, smtp_pass or smtp_encrypt)'),
                     new InputArgument('value', InputArgument::REQUIRED | InputArgument::IS_ARRAY, 'Variable value to set'),
                 ])
             );
