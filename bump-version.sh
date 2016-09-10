@@ -23,15 +23,18 @@ box build
 # NOW UPDATE WEBSITE
 git checkout gh-pages
 
+# MOVE PHAR
+mv guard.phar downloads/guard.phar
+
 # CALCULATE SHA1 SUM
-sha1sum guard.phar > guard.version
+sha1sum downloads/guard.phar > downloads/guard.version
 
 # READ SHA1 FOR DISPLAY
-SHA1=`cat guard.version`
+SHA1=`cat downloads/guard.version`
 
 # ADD FILES TO GIT
-git add guard.phar
-git add guard.version
+git add downloads/guard.phar
+git add downloads/guard.version
 git commit -m "Bump version ${SHA1}"
 
 #
