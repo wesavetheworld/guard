@@ -84,17 +84,17 @@
 <pre><code>guard --version
 </code></pre>
 
-<p>If it works, you can substitute php guard.phar with guard in all following commands.</p>
+<p>If it works, you can substitute <code>php guard.phar</code> with <code>guard</code> in all following commands.</p>
 
 <h1>
 <a id="quickstart" class="anchor" href="#quickstart" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Quickstart</h1>
 
-<p>Let's say your site <em>example.com</em> is located in /home/example/public_html and you want to protect it. First, let's add that path to the watch list:</p>
+<p>Let's say your site <em>example.com</em> is located in <code>/home/example/public_html</code> and you want to protect it. First, let's add that path to the watch list:</p>
 
 <pre><code>php guard.phar site:add example.com --path=/home/example/public_html
 </code></pre>
 
-<p>If it says <em>Site example.com added!</em> you're ready to go. </p>
+<p>If it says <em>Site example.com added!</em> you're ready to go.</p>
 
 <blockquote>
 <p><strong>Note</strong>: By default, Guard is watching for changes only on the following file types: <code>*.php;*.htm*;*.js;*.css;*.sql</code>. You can use <code>--types=TYPES</code> to specify your own file types to watch. Use <code>*</code> to watch them all (NOT recommended)   </p>
@@ -144,7 +144,7 @@ Options:
 
 <blockquote>
 <p><strong>Note</strong>: Name can be any valid folder name but to make everything easier you should always use your site domain name here.<br>
-<strong>Note</strong>: You must restart (stop/start) Guard after using this command for the changes to take effect.</p>
+<strong>Note</strong>: You must restart Guard (stop/start) after using this command for the changes to take effect.</p>
 </blockquote>
 
 <h4>
@@ -192,7 +192,7 @@ Options:
 <p>This command is used to remove site from being protected.</p>
 
 <blockquote>
-<p><strong>Note</strong>: You must restart (stop/start) Guard after using this command for the changes to take effect.</p>
+<p><strong>Note</strong>: You must restart Guard (stop/start) after using this command for the changes to take effect.</p>
 </blockquote>
 
 <h4>
@@ -254,7 +254,7 @@ Options:
 <p>Add folder to site excludes.</p>
 
 <blockquote>
-<p><strong>Note</strong>: You must restart (stop/start) Guard after using this command for the changes to take effect.</p>
+<p><strong>Note</strong>: You must restart Guard (stop/start) after using this command for the changes to take effect.</p>
 </blockquote>
 
 <h4>
@@ -271,7 +271,7 @@ Options:
 <p>Remove folder from site excludes.</p>
 
 <blockquote>
-<p><strong>Note</strong>: You must restart (stop/start) Guard after using this command for the changes to take effect.</p>
+<p><strong>Note</strong>: You must restart Guard (stop/start) after using this command for the changes to take effect.</p>
 </blockquote>
 
 <h4>
@@ -364,7 +364,7 @@ Options:
 <li>smtp - Use SMTP server to send emails. It supports no encryption, ssl and tls encryption. This is preferred transport.</li>
 </ul>
 
-<p>You should set up a cron job to call email:notify at regular intervals to notify you about new changes on site files. See examples below.</p>
+<p>You should set up a cron job to call <code>email:notify</code> at regular intervals to notify you about new changes on site files. See examples below.</p>
 
 <h3>
 <a id="emailshow" class="anchor" href="#emailshow" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>email:show</h3>
@@ -393,7 +393,7 @@ Options:
 </code></pre>
 
 <blockquote>
-<p><strong>Note</strong>: You must restart (stop/start) Guard after using this command for the changes to take effect.</p>
+<p><strong>Note</strong>: You must restart Guard (stop/start) after using this command for the changes to take effect.</p>
 </blockquote>
 
 <h4>
