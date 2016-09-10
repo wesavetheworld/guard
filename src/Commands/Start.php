@@ -24,6 +24,8 @@ class Start extends BaseCommand
             $this->error("Guard is already running!");
         }
 
+        file_get_contents(GUARD_USER_FOLDER.DIRECTORY_SEPARATOR.'guard.log', "");
+
         $sites = $this->guardFile->getSites();
         if (count($sites) < 1) {
             $this->error("No sites configured to watch! Use: php guard.phar site:add");
@@ -166,11 +168,15 @@ class Start extends BaseCommand
             case 'DELETE':
                 //file removed, restore
                 if ($this->fileSystem->exists($backupFilePath)) {
+                    if (!$this->fileSystem->exists(dirname($filePath))) {
+                        $this->fileSystem->mkdir(dirname($filePath));
+                    }
+
                     $this->fileSystem->copy($backupFilePath, $filePath, true);
+
                     $this->log("Restored {$backupFilePath} to {$filePath}");
 
                     $this->blockEvent($filePath, $event, $site);
-
                 } else {
                     $this->log("No backup exists at {$backupFilePath}");
                 }

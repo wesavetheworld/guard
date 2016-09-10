@@ -34,15 +34,15 @@ class SiteBackup extends BaseCommand
         $path       = $site->getPath();
         $backupPath = $site->backupPath();
 
-        if (is_dir($backupPath)) {
+        if ($this->fileSystem->exists($backupPath)) {
             $this->fileSystem->remove($backupPath);
         }
 
-        $output->writeln("Backing up all site files from {$path} to {$backupPath}");
-        $output->writeln("Depending on the site size, this may take a while...");
+        $output->writeln("Backing up all files from {$path} to {$backupPath}");
+        $output->writeln("Depending on the folder size, this may take a while...");
 
         $this->fileSystem->mirror($path, $backupPath);
 
-        $output->writeln("All site files are backed up!");
+        $output->writeln("All files are backed up!");
     }
 }

@@ -51,7 +51,7 @@ class SiteAdd extends BaseCommand
         }
 
         if (!is_dir($path)) {
-            $this->error("Directory {$path} does not exist!");
+            $this->error("{$path} does not exist!");
         }
 
         $site = new Site($name, $path, $types, $email, $excludes);
@@ -60,9 +60,18 @@ class SiteAdd extends BaseCommand
         $output->writeln("Site {$name} added!");
 
         //backup newly added site
-        $this->call('site:backup', [
-            'name' => $name
-        ]);
+        $backupPath = $site->backupPath();
+
+        if ($this->fileSystem->exists($backupPath)) {
+            $this->fileSystem->remove($backupPath);
+        }
+
+        $output->writeln("Backing up all files from {$path} to {$backupPath}");
+        $output->writeln("Depending on the folder size, this may take a while...");
+
+        $this->fileSystem->mirror($path, $backupPath);
+
+        $output->writeln("All  files are backed up!");
 
     }
 }

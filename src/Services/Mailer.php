@@ -128,10 +128,10 @@ HTML;
 
         $body .= "</table>\n";
         $body .= "<p>Please SSH to your server and review these events by using following commands:<br/>\n";
-        $body .= "<code>guard event:list</code> to show blocked events<br/>\n";
-        $body .= "<code>guard event:diff [id]</code> to show modifications<br/>\n";
-        $body .= "<code>guard event:allow [id|all]</code> to allow event(s) to occur<br/>\n";
-        $body .= "<code>guard event:remove [id|all]</code> to forget event(s) and remove them<br/>\n";
+        $body .= "<code>php guard.phar event:list</code> to show blocked events<br/>\n";
+        $body .= "<code>php guard.phar event:diff [nr]</code> to show modifications<br/>\n";
+        $body .= "<code>php guard.phar event:allow [nr|all]</code> to allow event(s) to occur<br/>\n";
+        $body .= "<code>php guard.phar event:remove [nr|all]</code> to forget event(s) and remove them<br/>\n";
         $body .= "</p>\n";
 
 
