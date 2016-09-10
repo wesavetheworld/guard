@@ -62,6 +62,7 @@ class Update extends BaseCommand
             }
         } catch (\Exception $e) {
             $output->writeln('Well, something happened! Either an oopsie or something involving hackers.');
+            $output->writeln($e->getMessage());
         }
     }
 }
