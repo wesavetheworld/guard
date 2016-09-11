@@ -339,9 +339,9 @@ Shows if Guard is currently running:
 
 ### start
 
-Start Guard if not running:
+Start Guard (in background) if not running:
 
-    php guard.phar start
+    php guard.phar start &
 
 ### stop
 
