@@ -104,7 +104,7 @@ namespace
     );
 
     // check ioncube loader version
-    if (extension_loaded('ionCube_loader')) {
+    if (extension_loaded('ioncube_loader')) {
         check(
             'You have a supported version of ionCube Loader.',
             'Your version of the ionCube Loader is not compatible with Phars.',
